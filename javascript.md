@@ -24,7 +24,10 @@
   - [クラス](#クラス)
   - [IO](#io)
   - [非同期処理](#非同期処理)
-  - [ライブラリ](#ライブラリ)
+  - [モジュール (ECMAScript Module (ESModule))](#モジュール-ecmascript-module-esmodule)
+    - [エクスポート](#エクスポート)
+    - [インポート](#インポート)
+    - [その他](#その他)
 - [付録](#付録)
   - [ECMAScriptの改定履歴](#ecmascriptの改定履歴)
 
@@ -128,7 +131,7 @@
 - `new.target`
   - コンストラクタ内において、new演算子で呼び出されたかどうかを検出するための疑似プロパティ。newで呼ばれて以内ならundefined。
 - `super`
-- `import()`式
+- `import()`式（ダイナミックインポート）
   - 関数風の式であり、関数ではない。
 - `import.meta`
 - 単項演算、二項演算、三項演算
@@ -157,6 +160,8 @@
 - タイプ2の巻き上げ：`var`
   - (同じスコープ内で)宣言より前に参照しても`ReferenceError`にならないが、`undefined`が返る。
 - タイプ3の巻き上げ：`let` `const` `class`
+  > 一時的なデッドゾーン (TDZ)
+  > https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/let#%E4%B8%80%E6%99%82%E7%9A%84%E3%81%AA%E3%83%87%E3%83%83%E3%83%89%E3%82%BE%E3%83%BC%E3%83%B3_tdz
   - 宣言だけがスコープ内で巻き上がり、宣言位置より前で参照すると`ReferenceError`になる。
   ```javascript
   const x = 1;
@@ -474,9 +479,69 @@ const obj = {
 - `async function`
 - `async function*`
 
-## ライブラリ
+## モジュール (ECMAScript Module (ESModule))
+> JavaScript モジュール - JavaScript | MDN
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Modules
+### エクスポート
+- 名前付きエクスポート宣言 `export`
+  - `let`, `const`, `var`, 関数、クラスをエクスポートできる
+  - `export {name1, name2}`で別の場所で宣言した変数をまとめてエクスポートできる
+  - `as`で名前を変更できる
+    ```js
+    export { myFunction as function1, myVariable as variable };
+    ```
+- デフォルトエクスポート `export default`
+  ```js
+  // 以下2つは同等
+  export { myFunction as default };
+  export default myFunction;
+  ```
+  - モジュールで1度のみ使用できる
+  - 値1つだけをエクスポートしたいときに使う
+  - あらゆる式をエクスポートできる
+  - インポート時にインポート側で名前を付ける
+    ```js
+    import m from "./test";  // 元の名前に関係なくmになる
+    ```
+- 再エクスポート `export from`
+  - 別のモジュールからインポートすると同時にエクスポートできる
+    ```js
+    // デフォルトをfunc1としてエクスポート、func2をそのままエクスポート？
+    export { default as func1, func2} from "bar.js"  
+    ```
+  - 現在のモジュール内では参照できない
+  - `export * from "module"`はmoduleモジュールのすべての**名前付き**エクスポートを再エクスポートする。複数使用して重複する名前があった場合はどちらも再エクスポートされない
 
-（`import`とか）
+### インポート
+```js
+// デフォルトエクスポートのインポート（デフォルトインポート）
+import defaultexport from "module-name";
+import {default as alias} from "module-name";
+// 名前付きエクスポートのインポート
+import {export1} from "module-name";
+import {export1 as alias1} from "module-name";
+import {export1, export2, …} from "module-name";
+// 名前空間オブジェクトのインポート
+import * as name from "module-name";
+// 副作用のためだけのインポート（何の値もインポートされない）
+import "module-name";
+```
+```js
+// 複数種類同時にインポート
+import defaultexport, * as name from "module-name";
+import defaultexport, {export1, export2} from "module-name";
+```
+- 名前空間オブジェクトのデフォルトインポートは`.default`キーワードで参照する
+- インポートされた値はエクスポートしたモジュール側からのみ動的に変更できる
+- 動的インポート `import()`
+  ```js
+  import("module-name")`
+  ```
+  - モジュール名前空間オブジェクトを返す
+
+### その他
+- インポートマップ
+- トップレベル`await`
 
 
 # 付録
