@@ -1,0 +1,9 @@
+- javascript
+  - ライブラリ関連の記載
+  - 非同期処理
+  - console
+  - ジェネレータ
+  - 関数のバインド
+  - WebAssembly
+- npm(Node.js)
+- Python

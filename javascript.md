@@ -1,17 +1,14 @@
-- [全般](#全般)
-  - [ES](#es)
-  - [実行環境](#実行環境)
-  - [厳格モード](#厳格モード)
+- [厳格モード (strict mode)](#厳格モード-strict-mode)
 - [文法](#文法)
   - [文と宣言](#文と宣言)
   - [式](#式)
   - [変数](#変数)
     - [宣言](#宣言)
+    - [スコープ](#スコープ)
     - [巻き上げ](#巻き上げ)
-    - [特殊定数](#特殊定数)
-    - [特殊変数](#特殊変数)
+    - [型](#型)
+    - [標準オブジェクト](#標準オブジェクト)
   - [演算子](#演算子)
-  - [型](#型)
   - [配列](#配列)
     - [作成](#作成)
     - [操作など](#操作など)
@@ -28,22 +25,44 @@
   - [IO](#io)
   - [非同期処理](#非同期処理)
   - [ライブラリ](#ライブラリ)
+- [付録](#付録)
+  - [ECMAScriptの改定履歴](#ecmascriptの改定履歴)
 
+以下より。
+> JavaScript リファレンス - JavaScript | MDN
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference
 
-# 全般
-## ES
-- ES6=ES2015、以降はES2016, ES2017, ...
-
-## 実行環境
-
-## 厳格モード
+# 厳格モード (strict mode)
 > https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Strict_mode
 ```javascript
 "use strict";
 ```
 - グローバルまたは関数スコープに対して設定できる。
-- 可変長引数、デフォルト引数、分割引数（？）のある関数には使用できない
-- モジュールとクラスは常に厳格モードである
+  - 可変長引数、デフォルト引数、分割引数（？）のある関数には使用できない
+  - モジュールとクラスは常に厳格モードである
+
+厳格モードで制限されるものは以下の通り。
+1. 未宣言の変数（＝グローバル変数）への代入禁止
+2. プロパティへの代入とプロパティの削除失敗時に例外を発生させる
+3. 関数の引数名の重複禁止
+4. 8進数リテラルの接頭辞`0`の禁止 (`0o`, `0O`はOK)
+5. プリミティブ値へのプロパティの設定禁止
+6. プロパティ名の重複禁止
+7. `with`文禁止
+8. `eval`がそのスコープに変数を作成しない
+9. ブロックスコープ内関数宣言の挙動の明確化
+   - 厳格モードではそのブロックの内部でしかその関数を参照できない
+10. `eval`と`arguments`の挙動の単純化
+    - `eval`と`arguments`への代入禁止
+    - `arguments`と名前付き引数の値を別インスタンスにする
+11. 関数に`this`として渡された値をオブジェクトに変換（ボックス化）しない
+12. stack-walkingプロパティの除去
+    - `Function.caller`, `Function.arguments`
+    - `arguments.callee`
+13. 予約語の追加（既に使われているものもある）
+    - `let`, `static`, `yield` （使用済み）
+    - `implements`, `interface`, `package`, `private`, `protected`, `public`
+
 
 # 文法
 ## 文と宣言
@@ -59,11 +78,11 @@
 - フロー関連 `return` `break` `continue` `throw` `if`...`else` `switch`
 - 変数宣言関連 `var`
 - ループ `do`...`while` `for` `for`...`in` `for`...`of` `for await`...`of` `while`
-- 空文
+- 空文 (`;`)
 - ブロック
   - 複数の文や宣言を並べて`{}`で囲ったもの。
 - 式文
-  - 単一の**式**(expression)からなる文。式単体では意味がないため通常は何らかの副次的な効果をもち、通常は次のどれか。他の文や宣言と区別できないような式（`function`キーワードなど）は禁止されており、その場合は`()`で囲う。
+  - 単一の**式**(expression)からなる文。式単体では意味がないため通常は何らかの副次的な効果をもち、通常は次のどれか。他の文や宣言と区別できないような式（`function`キーワードなど）は禁止されており、その場合は`()`で囲う。詳細は[式](#式)を参照。
   1. 関数呼び出し
   2. 代入式（代入演算子）
   3. インクリメント/デクリメント
@@ -71,9 +90,10 @@
   5. `yield`演算子, `yield*`演算子
   6. `import()`式
   7. タグ付きテンプレートリテラル
-- ラベル、`debugger`
+- ラベル
+- `debugger`
 
-文と宣言の違い：
+文と宣言にはいくつかの違いがある。
 - ほとんどのフロー制御は文だけを受け入れる
 - ラベルは文にのみ付けられる
 
@@ -116,12 +136,18 @@
 
 ## 変数
 ### 宣言
-- 変数名は大文字と小文字を区別する
-- キーワードなしで宣言した変数はグローバル変数となる
 - ローカル変数は以下のキーワードで宣言する
-  - ~~`var` 関数スコープまたはグローバルスコープの変数~~ 使わない
-  - `let` ブロックスコープのローカル変数
-- `const` (定数)
+  - ~~`var`文 関数スコープまたはグローバルスコープの変数~~ 使わない
+  - `let`宣言 （ブロックスコープのローカル変数）
+  - `const`宣言 （定数）
+- キーワードなしで宣言した変数はグローバル変数となる
+- 変数名は大文字と小文字を区別する
+
+### スコープ
+1. グローバルスコープ
+2. モジュールスコープ
+3. 関数スコープ
+4. ブロックスコープ
 
 ### 巻き上げ
 > https://developer.mozilla.org/ja/docs/Glossary/Hoisting
@@ -141,18 +167,110 @@
   ```
 - タイプ4の巻き上げ：`import` ※
 
-### 特殊定数
-- `true`/`false`
+### 型
+> JavaScript のデータ型とデータ構造 - JavaScript | MDN
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Data_structures \
+> 文法とデータ型 - JavaScript | MDN
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Grammar_and_types
+
+7つのプリミティブ型と`object`型がある。
 - `null`
 - `undefined`
-- `NaN`
-- `Infinity`
+  - nullはキーワード、undefinedは識別子であるが、実用上の影響はない。
+- `boolean`
+  - `true`
+  - `false`
+- `number` (数値型)
+  - 8進数リテラル：先頭が`0`, `0o`, `0O`で始まる数値
+  - 16進数リテラル：先頭が`0x`, `0X`
+  - 2進数リテラル：先頭が`0b`, `0B`
+  - 浮動小数点数リテラル
+- `bigint` (長整数型)
+  - 数値リテラルの末尾に`n`を付ける。
+- `string`
+  - `""`
+  - `''`
+  - テンプレートリテラル
+    ```javascript
+    ``
+    ```
+- `symbol` (シンボル型)
+- `object`
+  - `{}`
 
-### 特殊変数
-- `arguments`
-  - 関数が受け取った引数。引数不定のときしか使わないため、可変長引数を使うほうがよい。
-- `global`
-- `globalThis`
+### 標準オブジェクト
+> 標準組み込みオブジェクト - JavaScript | MDN
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects
+
+グローバルスコープにあり、どこからでもアクセスできるオブジェクト。
+- 値プロパティ
+  - `Infinity`
+  - `NaN`
+  - **`undefined`**
+  - `globalThis`
+- 関数プロパティ\
+  グローバルな関数。
+  - `eval()`
+  - `isFinite()`
+  - `isNaN()`
+  - `parseFloat()`
+  - `parseInt()`
+  - `encodeURI()`
+  - `encodeURIComponent()`
+  - `decodeURI()`
+  - `decodeURIComponent()`
+- 基本オブジェクト
+  - **`Object`**
+  - `Function`
+  - `Boolean` (booleanのラッパー)
+  - `Symbol`
+- エラーオブジェクト
+  - `Error`
+  - ...
+- 数値と日付
+  - `Number` (numberのラッパー)
+  - `BigInt` (bigintのラッパー)
+  - `Math`
+  - `Date`
+- テキスト処理
+  - `String` (stringのラッパー)
+  - `RegExp`
+- インデックス付きコレクション
+  - `Array`
+  - `Int8Array`
+  - `Uint8Array`
+  - ...
+- キー付きコレクション
+  - `Map`
+  - `Set`
+  - `WeakMap`
+  - `WeakSet`
+- 構造化データ
+  - `ArrayBuffer`
+  - `SharedArrayBuffer`
+  - `Atomics`
+  - `DataView`
+  - `JSON`
+- 制御抽象化オブジェクト
+  - `Promise`
+  - `Generator`
+  - `GeneratorFunction`
+  - `AsyncFunction`
+  - `AsyncGenerator`
+  - `AsyncGeneratorFunction`
+- リフレクション
+  - `Reflect`
+  - `Proxy`
+- 国際化
+  - `Intl`
+  - ...
+- WebAssembly
+  - `WebAssembly`
+  - ...
+- その他
+  - `arguments`
+    - 関数が受け取った引数 。引数不定のときしか使わないため、可変長引数を使うほうがよい。
+
 
 ## 演算子
 > https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators
@@ -161,7 +279,7 @@
   - ビット演算代入 `<<=` `>>=` `>>>=` `&=` `^=` `|=`
   - 論理代入 `&&=` `||=` `??=`
   - 分割代入 `[a,b]=arr` `{a,b}=obj` (ES2015)
-    - 配列の要素やオブジェクトのプロパティを複数の変数に一括で代入する\
+    - 配列の要素やオブジェクトのプロパティを複数の変数に一括で代入する
       ```javascript
       [x, y] = [10, 20];    // x=10, y=20
       [x, y, ...z] = [10, 20, 30, 40, 50];   // z=[30, 40, 50]
@@ -171,7 +289,7 @@
 - 比較 `==` `!=` `===` `!==` `<` `>` `<=` `>=`
   - `===`
   - `instanceof`
-  - `in` プロパティの判別
+  - `in` プロパティの存在
 - ビット `<<` `>>` `>>>` `&` `|` `^` `~`
 - 論理 `!` `&&` `||` `??`
   - `??` Null合体演算子
@@ -199,21 +317,6 @@
   - 式の破棄 `void`
   - (非同期) `await`
 
-## 型
-※暫定。typeofの返す型
-- undefined
-- object
-- boolean
-- number
-- bigint
-- string
-- symbol
-- function
-
-?
-- 文字列
-- 列挙型
-- キャスト
 
 ## 配列
 ### 作成
@@ -262,7 +365,7 @@ var f1 = function() {}
   ```javascript
   var f1 = () => {}
   ```
-  - ただし`function`と`=>`では`this`の扱いが変わる。`function`の`this`はその関数がバインドされているオブジェクトだが、`=>`の`this`はその関数の実行を指示するオブジェクトである。
+  - ただし`function`と`=>`では`this`の扱いが変わる。`function`の`this`はその関数がバインドされているオブジェクトだが、`=>`の`this`はその関数の実行を指示するオブジェクト(?)である。
 
 ### 引数
 - デフォルト引数を指定できる (ES2015)
@@ -289,6 +392,7 @@ var f1 = function() {}
 - `func.bind()` -->
 
 ### ジェネレータ関数 `funciton*`
+（未）
 
 ## オブジェクト `{}`
 ### メソッド
@@ -317,12 +421,12 @@ const obj = {
   for (let i = 0; i < limit; i++) {
   }
   ```
-- 反復可能オブジェクト（配列等）の反復
+- `for...of` : 反復可能オブジェクト（配列等）の反復
   ```javascript
   for (const element of array) {
   }
   ```
-- オブジェクトのプロパティの反復
+- `for...in` : オブジェクトのプロパティの反復
   ```javascript
   for (const property in object) {
   }
@@ -371,6 +475,72 @@ const obj = {
 - `async function*`
 
 ## ライブラリ
-----
-- 属性
-- ジェネリクス
+
+（`import`とか）
+
+
+# 付録
+## ECMAScriptの改定履歴
+> proposals/finished-proposals.md at main · tc39/proposals
+> https://github.com/tc39/proposals/blob/main/finished-proposals.md
+- ES2016
+  - `Array.prototype.includes`
+  - Exponentiation operator (べき乗演算子)
+    - `**`
+- ES2017
+  - `Object.values`/`Object.entries`
+  - String padding
+    - `String.prototype.padStart`
+    - `String.prototype.padEnd`
+  - `Object.getOwnPropertyDescriptors`
+  - Trailing commas in function parameter lists and calls
+  - Async functions (非同期関数)
+  - Shared memory and atomics
+- ES2018
+  - Lifting template literal restriction
+  - `s` (`dotAll`) flag for regular expressions
+  - RegExp named capture groups
+  - Rest/Spread Properties
+  - RegExp Lookbehind Assertions
+  - RegExp Unicode Property Escapes
+  - `Promise.prototype.finally`
+  - Asynchronous Iteration (非同期イテレーション)
+- ES2019
+  - Optional `catch` binding
+  - JSON superset
+  - `Symbol.prototype.description`
+  - `Function.prototype.toString` revision
+  - `Object.fromEntries`
+  - Well-formed `JSON.stringify`
+  - `String.prototype.{trimStart,trimEnd}`
+  - `Array.prototype.{flat,flatMap}`
+- ES2020
+  - `String.prototype.matchAll`
+  - `import()`
+  - `BigInt`
+  - `Promise.allSettled`
+  - `globalThis`
+  - `for-in` mechanics
+  - Optional Chaining
+  - Nullish coalescing Operator
+  - `import.meta`
+- ES2021
+  - `String.prototype.replaceAll`
+  - `Promise.any`
+  - WeakRefs (弱参照)
+  - Logical Assignment Operators
+  - Numeric separators
+- ES2022
+  - Class Fields (Private instance methods and accessors, Class Public Instance Fields & Private Instance Fields, Static class fields and private static methods)
+  - RegExp Match Indices
+  - Top-level `await` (トップレベルの`await`)
+  - Ergonomic brand checks for Private Fields
+  - `.at()`
+  - Accessible `Object.prototype.hasOwnProperty`
+  - Class Static Block
+  - Error Cause
+- ES2023
+  - Array find from last (Arrayの末尾からのfind)
+  - Hashbang Grammar (Hashbangの記述)
+  - Symbols as WeakMap keys
+  - Change Array by Copy
