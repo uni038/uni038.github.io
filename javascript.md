@@ -1,33 +1,49 @@
 - [厳格モード (strict mode)](#厳格モード-strict-mode)
 - [文法](#文法)
   - [文と宣言](#文と宣言)
-  - [式](#式)
+  - [式、演算子](#式演算子)
+    - [基本式](#基本式)
+    - [左辺式](#左辺式)
+    - [単項演算子](#単項演算子)
+    - [算術演算子](#算術演算子)
+    - [比較](#比較)
+    - [ビット演算](#ビット演算)
+    - [論理演算子](#論理演算子)
+    - [条件演算子](#条件演算子)
+    - [代入演算子](#代入演算子)
+    - [その他](#その他)
   - [変数](#変数)
     - [宣言](#宣言)
     - [スコープ](#スコープ)
     - [巻き上げ](#巻き上げ)
     - [型](#型)
     - [標準オブジェクト](#標準オブジェクト)
-  - [演算子](#演算子)
+  - [制御構文](#制御構文)
   - [配列](#配列)
     - [作成](#作成)
+    - [分割代入](#分割代入)
+    - [スプレッド構文](#スプレッド構文)
     - [操作など](#操作など)
   - [関数](#関数)
-    - [引数](#引数)
+    - [定義](#定義)
+    - [関数のバインド](#関数のバインド)
     - [即時関数 (IIFE)](#即時関数-iife)
-    - [ジェネレータ関数 `funciton*`](#ジェネレータ関数-funciton)
+    - [ジェネレーター関数 `funciton*`](#ジェネレーター関数-funciton)
+    - [非同期関数](#非同期関数)
+    - [非同期ジェネレーター関数](#非同期ジェネレーター関数)
+    - [`new`演算子](#new演算子)
   - [オブジェクト `{}`](#オブジェクト-)
     - [メソッド](#メソッド)
     - [ゲッター、セッター](#ゲッターセッター)
     - [計算されたプロパティ名](#計算されたプロパティ名)
-  - [制御構文](#制御構文)
+    - [スプレッド構文](#スプレッド構文-1)
   - [クラス](#クラス)
   - [IO](#io)
   - [非同期処理](#非同期処理)
   - [モジュール (ECMAScript Module (ESModule))](#モジュール-ecmascript-module-esmodule)
     - [エクスポート](#エクスポート)
     - [インポート](#インポート)
-    - [その他](#その他)
+    - [その他](#その他-1)
 - [付録](#付録)
   - [ECMAScriptの改定履歴](#ecmascriptの改定履歴)
 
@@ -37,7 +53,7 @@
 
 # 厳格モード (strict mode)
 > https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Strict_mode
-```javascript
+```js
 "use strict";
 ```
 - グローバルまたは関数スコープに対して設定できる。
@@ -85,7 +101,7 @@
 - ブロック
   - 複数の文や宣言を並べて`{}`で囲ったもの。
 - 式文
-  - 単一の**式**(expression)からなる文。式単体では意味がないため通常は何らかの副次的な効果をもち、通常は次のどれか。他の文や宣言と区別できないような式（`function`キーワードなど）は禁止されており、その場合は`()`で囲う。詳細は[式](#式)を参照。
+  - 単一の**式**(expression)からなる文。式単体では意味がないため通常は何らかの副次的な効果をもち、通常は次のどれか。他の文や宣言と区別できないような式（`function`キーワードなど）は禁止されており、その場合は`()`で囲う。詳細は[式、演算子](#式、演算子)を参照。
   1. 関数呼び出し
   2. 代入式（代入演算子）
   3. インクリメント/デクリメント
@@ -100,42 +116,90 @@
 - ほとんどのフロー制御は文だけを受け入れる
 - ラベルは文にのみ付けられる
 
-## 式
+## 式、演算子
 > https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators
 
 式(expression)は、何らかの値を返すもの。
-- 基本式
-  - `this`
-    - 関数の実行のコンテキスト。https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/this
-  - リテラル
-    - `null` `true` `false`
-    - 数値リテラル
-    - 配列リテラル `[]`
-    - オブジェクトリテラル `{}`
-    - 文字列リテラル
-    - 正規表現リテラル
-    - テンプレートリテラル
-      ```javascript
-      [<func>]`<text>`
-      ```
-  - 関数式
-    - `function`キーワード
-    - `function*`キーワード
-    - `async function`キーワード
-    - `async function*`キーワード
-  - クラス式
-    - `class`キーワード
-  - グループ化 `()`
-- プロパティアクセス `obj.property` `<obj>["property"]` `?.`
-- `new`式
+
+### 基本式
+- `this`
+- リテラル
+  - `null`
+  - 論理値
+  - 数値
+  - 文字列
+  - 正規表現リテラル
+  - テンプレートリテラル
+- 配列リテラル（配列初期化子） `[]`
+- オブジェクトリテラル（オブジェクト初期化子） `{}`
+- 関数式 `function`, `function*`, `async function`, `async function*`
+- クラス式 `class`
+- グループ化 `()`
+
+### 左辺式
+- プロパティアクセサ `obj.property` `obj["property"]`
+- オプショナルチェーン演算子 `?.`
+  - プロパティアクセサの一種で、左辺が`null`や`undefined`の場合にエラーにならずに`undefined`を返す。
+  - 関数呼び出し時にも使える。`[]`によるプロパティアクセス時にも使える。配列要素にも使える。
+    ```js
+    obj.myMethod?.()
+    obj?.["property"]
+    array1?.[3]
+    ```
+  - 代入演算の左辺値としては使用できない。
+- `new`
 - `new.target`
-  - コンストラクタ内において、new演算子で呼び出されたかどうかを検出するための疑似プロパティ。newで呼ばれて以内ならundefined。
-- `super`
-- `import()`式（ダイナミックインポート）
-  - 関数風の式であり、関数ではない。
 - `import.meta`
-- 単項演算、二項演算、三項演算
-- スプレッド構文
+- `super`
+- `import()`
+  - 関数風の式であり、関数ではない。
+
+### 単項演算子
+- プロパティの削除 `delete`
+- 値の破棄 `void`
+- `typeof`
+  - 変数のプリミティブ型を文字列で返す。
+- `+`、正負反転 `-`、ビット否定 `~`、論理否定 `!`
+- プロミスの待機 `await`
+- インクリメント `++`、デクリメント `--`
+
+### 算術演算子
+- 加算 `+`、減算 `-`、乗算 `*`、除算 `/`、剰余 `%`、べき乗 `**`
+
+### 比較
+- `<`、`>`、`<=`、`>=`
+- `instanceof`
+  - あるオブジェクトが別のオブジェクトの子にあたるかどうかを返す。
+- `in`
+  - オブジェクトが特定のプロパティを持つかどうかを返す。
+- 等価 `==`、`!=`
+- 厳密等価 `===`、`!==`
+
+### ビット演算
+- 左シフト `<<`、右シフト `>>`、ビット符号なし右シフト `>>>`
+- ビット積 `&`、ビット和 `|`、ビット排他的論理和 `^`
+
+### 論理演算子
+短絡評価を行う。
+- 論理積 `&&`、論理和 `||`
+- Null合体演算子 `??`
+  - 左辺が`null`か`undefined`なら右辺の値を、そうでないなら左辺の値を返す。
+
+### 条件演算子
+- `? :`
+
+### 代入演算子
+- `=`, `+=`, `-=` …
+- 分割代入
+  - 右辺のどの値を何に代入するかを、左辺で指定する。
+
+### その他
+- yield演算子 `yield`, `yield*`
+- スプレッド構文 `...obj`
+  - 反復可能オブジェクトを関数の引数や配列リテラルの要素に展開する。
+- カンマ演算子 `,`
+  - 複数の式を評価し、最後の式の値を結果として返す。
+
 
 ## 変数
 ### 宣言
@@ -163,7 +227,7 @@
   > 一時的なデッドゾーン (TDZ)
   > https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/let#%E4%B8%80%E6%99%82%E7%9A%84%E3%81%AA%E3%83%87%E3%83%83%E3%83%89%E3%82%BE%E3%83%BC%E3%83%B3_tdz
   - 宣言だけがスコープ内で巻き上がり、宣言位置より前で参照すると`ReferenceError`になる。
-  ```javascript
+  ```js
   const x = 1;
   {
     console.log(x); // -> ReferenceError
@@ -196,7 +260,7 @@
   - `""`
   - `''`
   - テンプレートリテラル
-    ```javascript
+    ```js
     ``
     ```
 - `symbol` (シンボル型)
@@ -277,50 +341,25 @@
     - 関数が受け取った引数 。引数不定のときしか使わないため、可変長引数を使うほうがよい。
 
 
-## 演算子
-> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators
-- 代入 `=`
-  - 算術代入 `*=` `/=` `%=` `+=` `-=` `**=`
-  - ビット演算代入 `<<=` `>>=` `>>>=` `&=` `^=` `|=`
-  - 論理代入 `&&=` `||=` `??=`
-  - 分割代入 `[a,b]=arr` `{a,b}=obj` (ES2015)
-    - 配列の要素やオブジェクトのプロパティを複数の変数に一括で代入する
-      ```javascript
-      [x, y] = [10, 20];    // x=10, y=20
-      [x, y, ...z] = [10, 20, 30, 40, 50];   // z=[30, 40, 50]
-      ```
-- 算術 `+` `-` `*` `/` `%` `**`(べき乗)
-  - インクリメント・デクリメント `++` `--`
-- 比較 `==` `!=` `===` `!==` `<` `>` `<=` `>=`
-  - `===`
-  - `instanceof`
-  - `in` プロパティの存在
-- ビット `<<` `>>` `>>>` `&` `|` `^` `~`
-- 論理 `!` `&&` `||` `??`
-  - `??` Null合体演算子
-- 条件 `?` `:`
-- オブジェクト
-  - プロパティアクセサ `.<property>` `[<property>]`
-  - オプショナルチェーン演算子 `?.`
-    - 左辺がnullish(nullまたはundefined)の場合にundefinedを返す
-  - プロパティの削除 `delete`
-  - オブジェクトの型 `typeof`
-  - プロトタイプチェーンの検査 `instanceof`
-  - プロパティの検査 `in`
-  - スプレッド `...` (ES2015)
-    - 反復可能オブジェクトを展開する。
-- その他
-  - ジェネレータの操作 `yield` `yield*`
-  - カンマ `,`
-    - 前後の式を評価したあと右の式を返す。
-  - `new`
-    - インスタンスを作成する
-    - `new.target` (疑似プロパティ)\
-      new演算子で呼び出されたコンストラクターの中ではそのコンストラクター、それ以外ではundefined
-  - `import.meta`
-  - 動的インポート `import()`
-  - 式の破棄 `void`
-  - (非同期) `await`
+## 制御構文
+- 通常のfor
+  ```js
+  for (let i = 0; i < limit; i++) {
+  }
+  ```
+- `for...of` : 反復可能オブジェクト（配列等）の反復
+  ```js
+  for (const element of array) {
+  }
+  ```
+- `for...in` : オブジェクトのプロパティの反復
+  ```js
+  for (const property in object) {
+  }
+  ```
+- `while`
+- `do...while`
+- `for await...of`
 
 
 ## 配列
@@ -332,6 +371,15 @@
     - arraylikeは配列やstring, set, mapなど
   - `array = Array.of(e1, e2, ...)` (ES2015)
     - new Arrayとほぼ同じ
+
+### 分割代入
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+
+右辺値の何を左辺に代入するかを左辺で定義する。
+
+### スプレッド構文
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+配列やオブジェクトを、0個以上のものが期待される場所に展開する
 
 ### 操作など
 情報
@@ -356,128 +404,237 @@
 - `array.every()`
 - `array.some()`
 
-## 関数
-```javascript
-function myfunc() {}
-```
-```javascript
-var f1 = function() {}
-```
-- javascriptの関数はすべて`Function`オブジェクトである
-- 既定で`undefined`を返す
-  - コンストラクタを`new`で呼ぶと`this`を返す（？）
-- アロー`=>`を用いても定義できる (ES2015)
-  ```javascript
-  var f1 = () => {}
-  ```
-  - ただし`function`と`=>`では`this`の扱いが変わる。`function`の`this`はその関数がバインドされているオブジェクトだが、`=>`の`this`はその関数の実行を指示するオブジェクト(?)である。
 
-### 引数
-- デフォルト引数を指定できる (ES2015)
-- 可変長引数を指定できる (ES2015)
+## 関数
+> 関数 - JavaScript | MDN\
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions
+
+### 定義
+- 関数宣言
+  ```js
+  function myfunc() {}
   ```
+  - 関数宣言は巻き上げが行われる
+- 関数式
+  ```js
+  const f1 = function() {}
+  const f2 = function someFunction() {}
+  ```
+- アロー関数式
+  > アロー関数式 - JavaScript | MDN\
+  > https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+  ```js
+  const f = (args) => {}
+  ```
+  - ~~アロー関数式の中に記述された変数はそれがバインドされたオブジェクトのコンテキストではなく、アロー関数式の記述された場所のスコープで評価される。`this`等の扱いに注意~~
+  - アロー関数式は`arguments`オブジェクトを持たない
+- 備考
+  - いずれの定義もクロージャである。すなわち、内部に記述された変数はその関数定義の記述された場所のスコープで評価される。
+  - javascriptの関数はすべて`Function`オブジェクトである
+  - 既定で`undefined`を返す
+    - コンストラクタを`new`で呼ぶと`this`を返す（？）
+- 引数
+- デフォルト引数 (ES2015)
+  ```js
+  function myFunc(a, b = 1) {}
+  ```
+  - デフォルト引数に対して`undefined`を渡しても、デフォルト値が優先される
+  - デフォルト値は呼び出し時に評価される
+  - 自分より前の引数を参照できる
+    ```js
+    function myFunc(a, b = a) {}
+    ```
+  - 呼び出し時の引数が少ない場合、デフォルト値の有無にかかわらず左から順に代入される
+    ```js
+    function myFunc(a = 1, b) { return [a, b] }
+    myFunc(2) // -> [2, undefined]
+    ```
+  - デフォルト値は分割代入できる
+    ```js
+    ```
+- 可変長引数（残余引数） (ES2015)
+  ```js
   function myfunc(arg1, ...arg2) {}
   ```
-  - 可変長引数は配列になる。
+  - 最後の引数に`...`を付けると移行の引数を配列としてその引数に代入する
+  - 要素が1つだけでも配列になる
+  - 要素が空でも配列になる
 - 引数の末尾にカンマを許容する (ES2017)
-- `arguments`オブジェクト
+- `arguments`オブジェクト (deprecated)
+  - 配列ではないため配列のプロパティを持たない
 - (参照渡しは?)
 
+### 関数のバインド
+- `call`, `apply`, `bind`
+  - TODO
+
 ### 即時関数 (IIFE)
+> IIFE (即時実行関数式) - MDN Web Docs 用語集: ウェブ関連用語の定義 | MDN\
 > https://developer.mozilla.org/ja/docs/Glossary/IIFE
-```javascript
+```js
 (function(arg) {
   // ...
 })();
 ```
 
-<!-- ### バインド
-- `func.call()`
-- `func.apply()`
-- `func.bind()` -->
+### ジェネレーター関数 `funciton*`
+定義（関数宣言または関数式）
+```js
+// 関数宣言
+function* myGeneratorFunction() {}
+// 関数式
+const myGeneratorFunction2 = function* () {}
+const myGeneratorFunction3 = function* someFunc() {}
+```
+- TODO
 
-### ジェネレータ関数 `funciton*`
-（未）
+### 非同期関数
+```js
+// 関数宣言
+async function myFunc() {}
+// 関数式
+const myFunc2 = async function () {}
+const myFunc3 = async function someFunc() {}
+```
+
+### 非同期ジェネレーター関数
+```js
+// 関数宣言
+async function* myFunc() {}
+// 関数式
+const myFunc2 = async function* () {}
+const myFunc3 = async function* someFunc() {}
+```
+
+### `new`演算子
+- `new.target` 関数がnewで呼び出されたかどうかを検知する
 
 ## オブジェクト `{}`
 ### メソッド
-オブジェクトのメンバーである関数をメソッドといい、簡略構文がある。
-```javascript
+> メソッド定義 - JavaScript | MDN\
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions/Method_definitions
+
+オブジェクトのメンバーである関数を**メソッド**といい、簡略構文がある。
+```js
 const obj = {
   foo: function () {},
-  bar: function* () {}
+  bar: function* () {},
+  baz: async function () {},
+  qux: async function* () {},
 }
-// 簡略化された構文
-const obj = {
+```
+簡略化された構文
+```js
+const obj2 = {
   foo() {},
-  bar() {}
+  *bar() {},
+  async baz() {},
+  async* qux() {},
 }
 ```
 
 ### ゲッター、セッター
+> ゲッター - JavaScript | MDN\
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions/get \
+> セッター - JavaScript | MDN\
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions/set
 - `get` `set`
 
 ### 計算されたプロパティ名
+> 計算プロパティ名 （オブジェクト初期化子 - JavaScript | MDN）\
+> https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Object_initializer#%E8%A8%88%E7%AE%97%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E5%90%8D
 
-
-## 制御構文
-- 通常のfor
-  ```javascript
-  for (let i = 0; i < limit; i++) {
-  }
-  ```
-- `for...of` : 反復可能オブジェクト（配列等）の反復
-  ```javascript
-  for (const element of array) {
-  }
-  ```
-- `for...in` : オブジェクトのプロパティの反復
-  ```javascript
-  for (const property in object) {
-  }
-  ```
-- `while`
-- `do...while`
-- `for await...of`
-
+### スプレッド構文
+配列の項を参照。
 
 ## クラス
+> クラス - JavaScript | MDN\
 > https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Classes
 
 クラスの実体は関数である。
-- 宣言
-  - クラス宣言またはクラス式を使う。
-    ```javascript
-    class myClass extends supderClass {
-      static staticField1;
-      #privateField;
+- クラスの定義
+  - クラス宣言
+    ```js
+    class MyClass {}
+    ```
+  - クラス式
+    ```js
+    const MyClass = class {}
+    // 名前を付けてもよい
+    const MyClass2 = class SomeClass {}
+    ```
+- クラスのメンバー
+  - メソッド、フィールド
+    ```js
+    const MyClass {
+      myField;
+      myMethod() {}
+    }
+    ```
+    - フィールドの既定値は`undefined`
+    - 変数ではないため`let`等は不要
+  - ゲッター、セッター
+    ```js
+    class MyClass {
+      get myGetter() {}
+      set mySetter(value) {}
+    }
+    ```
+    - ゲッターは引数を持てない
+    - ゲッターはフィールドと同じ名前を持てない
+  - 静的メソッド、静的フィールド
+    ```js
+    const MyClass {
+      static staticField;
+      static staticMethod() {}
+      // 静的初期化ブロック
       static {
-        // 静的初期化
-      }
-      constructor() {
-      }
-      method1() {
-      }
-      #privateMethod() {
-      }
-      get getter1() {
-      }
-      set setter1() {
+        var x = this.staticField
       }
     }
     ```
-- 静的初期化ブロック `static{}`
-- 静的プロパティ `static`
-- プライベートプロパティ `#<property>`
-- 継承 `extends`
+    - 静的初期化ブロック
+      - プライベート静的フィールドにアクセスできる
+      - 複数定義できる
+      - `this`でコンストラクターを参照できる
+    - 静的フィールド、静的初期化ブロックは上から順に評価される
+  - プライベートメンバー
+    ```js
+    const MyClass {
+      #myField;
+      #myMethod() {}
+      constructor(value) {
+        this.#myField = value; // 参照時も#を付ける
+      }
+    }
+    ```
+  - コンストラクター
+    ```js
+    const MyClass {
+      myField;
+      constructor(value) {
+        this.myField = value;
+      }
+    }
+    ```
+- 継承
+  ```js
+  class MyClass extends ParentClass {
+    constructor() {
+      super()
+    }
+  }
+  ```
+  - `super`で親クラスのメンバーを参照できる
+  - 子クラスのコンストラクターでは`super()`で親クラスのコンストラクターを参照できる。ただし`this`より前に使う必要がある
+  - 子クラスのコンストラクターを定義しなかった場合、暗黙に引数が`super()`にそのまま渡り実行される
+
 
 ## IO
 - コンソール
 
 ## 非同期処理
 - プロミス
-- `async function`
-- `async function*`
 
 ## モジュール (ECMAScript Module (ESModule))
 > JavaScript モジュール - JavaScript | MDN
