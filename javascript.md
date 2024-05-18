@@ -123,6 +123,7 @@
 
 ### 基本式
 - `this`
+  - 関数が実行されるコンテキスト。https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/this#method_binding
 - リテラル
   - `null`
   - 論理値
@@ -641,10 +642,12 @@ const obj2 = {
 > https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Modules
 ### エクスポート
 - 名前付きエクスポート宣言 `export`
+  - モジュール内の最上位スコープでのみ使用できる
   - `let`, `const`, `var`, 関数、クラスをエクスポートできる
-  - `export {name1, name2}`で別の場所で宣言した変数をまとめてエクスポートできる
   - `as`で名前を変更できる
+  - `export {name1, name2}`で別の場所で宣言した変数をまとめてエクスポートできる（※宣言前に参照できる）
     ```js
+    export const a = 1;
     export { myFunction as function1, myVariable as variable };
     ```
 - デフォルトエクスポート `export default`
@@ -656,6 +659,9 @@ const obj2 = {
   - モジュールで1度のみ使用できる
   - 値1つだけをエクスポートしたいときに使う
   - あらゆる式をエクスポートできる
+    ```js
+    export default 1 + 1;
+    ```
   - インポート時にインポート側で名前を付ける
     ```js
     import m from "./test";  // 元の名前に関係なくmになる
@@ -663,38 +669,47 @@ const obj2 = {
 - 再エクスポート `export from`
   - 別のモジュールからインポートすると同時にエクスポートできる
     ```js
-    // デフォルトをfunc1としてエクスポート、func2をそのままエクスポート？
-    export { default as func1, func2} from "bar.js"  
+    // bar.jsのデフォルトエクスポートをfunc1として名前付きエクスポート、
+    // func2をそのまま名前付きエクスポート
+    export { default as func1, func2 } from "bar.js"
+    // これも可
+    export { default, func2 } from "bar.js"
     ```
   - 現在のモジュール内では参照できない
-  - `export * from "module"`はmoduleモジュールのすべての**名前付き**エクスポートを再エクスポートする。複数使用して重複する名前があった場合はどちらも再エクスポートされない
+  - importにはない`export * from "module"`構文はmoduleモジュールのすべての**名前付き**エクスポートを再エクスポートする
+    - 複数使用し、重複する名前があった場合はどちらも再エクスポートされない
 
 ### インポート
-```js
-// デフォルトエクスポートのインポート（デフォルトインポート）
-import defaultexport from "module-name";
-import {default as alias} from "module-name";
-// 名前付きエクスポートのインポート
-import {export1} from "module-name";
-import {export1 as alias1} from "module-name";
-import {export1, export2, …} from "module-name";
-// 名前空間オブジェクトのインポート
-import * as name from "module-name";
-// 副作用のためだけのインポート（何の値もインポートされない）
-import "module-name";
-```
-```js
-// 複数種類同時にインポート
-import defaultexport, * as name from "module-name";
-import defaultexport, {export1, export2} from "module-name";
-```
-- 名前空間オブジェクトのデフォルトインポートは`.default`キーワードで参照する
-- インポートされた値はエクスポートしたモジュール側からのみ動的に変更できる
+- デフォルトエクスポートのインポート
+  - 名前を付ける必要がある
+  ```js
+  import default_export from "module-name";
+  import { default as module_alias } from "module-name";
+  ```
+- 名前付きエクスポートのインポート
+  ```js
+  // 個別にインポート
+  import { export1, export2 as alias1, … } from "module-name";
+  ```
+- 名前空間のインポート
+  ```js
+  // すべての名前付きエクスポートのインポート
+  //（モジュールオブジェクトに名前を付ける必要がある）
+  import * as name from "module-name";
+  ```
+  - 名前空間オブジェクトのデフォルトインポートは`.default`で参照できる
+- 複数種類のインポート
+  ```js
+  import default_export, { export2, export3, … } from "module-name";
+  import default_export, * as name from "module-name";
+  ```
+  - `import { default as module_alias, export2, export3, …}`はだめ？
 - 動的インポート `import()`
   ```js
   import("module-name")`
   ```
   - モジュール名前空間オブジェクトを返す
+- インポートされた値はエクスポートしたモジュール側からのみ動的に変更できる。
 
 ### その他
 - インポートマップ
