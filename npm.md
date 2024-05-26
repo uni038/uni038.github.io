@@ -5,7 +5,7 @@
   - [`npm doctor` - npm環境を検証する](#npm-doctor---npm環境を検証する)
 - [ローカル](#ローカル)
   - [`npm init`](#npm-init)
-  - [`npm pkg` - package.jsonのマネージ](#npm-pkg---packagejsonのマネージ)
+  - [`npm pkg` - package.jsonの管理](#npm-pkg---packagejsonの管理)
   - [`npm start` - startスクリプトを実行する](#npm-start---startスクリプトを実行する)
   - [`npm stop` - stopスクリプトを実行する](#npm-stop---stopスクリプトを実行する)
   - [`npm test` - testスクリプトを実行する](#npm-test---testスクリプトを実行する)
@@ -18,13 +18,13 @@
   - [`npm logout`](#npm-logout)
   - [`npm diff` - レジストリにあるファイルとローカルのdiffを取る](#npm-diff---レジストリにあるファイルとローカルのdiffを取る)
   - [`npm ping`](#npm-ping)
-  - [`npm hook`](#npm-hook)
+  - [`npm hook` - レジストリフックの管理](#npm-hook---レジストリフックの管理)
   - [`npm star`](#npm-star)
   - [`npm unstar`](#npm-unstar)
   - [`npm stars`](#npm-stars)
   - [`npm search` - パッケージを探す](#npm-search---パッケージを探す)
   - [`npm view` - レジストリの情報を見る](#npm-view---レジストリの情報を見る)
-  - [`npm profile`](#npm-profile)
+  - [`npm profile` - レジストリでのプロフィール情報を変更する](#npm-profile---レジストリでのプロフィール情報を変更する)
 - [依存パッケージ](#依存パッケージ)
   - [インストール / アンインストール](#インストール--アンインストール)
     - [`npm install` - インストール](#npm-install---インストール)
@@ -97,7 +97,9 @@ v10.8.0
 
 # ローカル
 ## `npm init`
-## `npm pkg` - package.jsonのマネージ
+## `npm pkg` - package.jsonの管理
+**TODO**
+
 ## `npm start` - startスクリプトを実行する
 ## `npm stop` - stopスクリプトを実行する
 ## `npm test` - testスクリプトを実行する
@@ -108,6 +110,7 @@ v10.8.0
   - `prestop` > `stop` > `poststop`
   - `prestart` > `start` > `poststart`
   - `postrestart`
+
 ## `npm run-script` / `npm run` - 任意のスクリプトを実行する
 ## `npm version` - バージョンを変更する
 
@@ -118,13 +121,13 @@ v10.8.0
 ## `npm logout`
 ## `npm diff` - レジストリにあるファイルとローカルのdiffを取る
 ## `npm ping`
-## `npm hook`
+## `npm hook` - レジストリフックの管理
 ## `npm star`
 ## `npm unstar`
 ## `npm stars`
 ## `npm search` - パッケージを探す
 ## `npm view` - レジストリの情報を見る
-## `npm profile`
+## `npm profile` - レジストリでのプロフィール情報を変更する
 
 
 # 依存パッケージ
