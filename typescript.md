@@ -1,4 +1,4 @@
-# 型
+# プリミティブ型
 ```ts
 const num: number = 123;
 ```
@@ -11,8 +11,71 @@ const num: number = 123;
   const str: "foo" = "foo"
   ```
 - `any`型
+  - 何にでも代入できる
   - `noImplicitAny`オプションで暗黙のanyを規制できる
-## オブジェクトのプロパティ
+- `unknown`型
+  - 何にも代入できない
+- タプル型
+  ```ts
+  const list: [number, string, boolean];
+  ```
+- ユニオン型
+  ```ts
+  let numberOrUndefined: number | undefined;
+  ```
+  - 判別可能なユニオン型
+
+# 関数の型
+```ts
+// アロー関数を使う構文
+type Ftype1 = (num: number, …) => number;
+// メソッド構文
+type Ftype2 = {
+    (num: number, …): number;
+};
+```
+- 関数に対して`typeof`を使うと関数の型が得られる。
+    ```ts
+    type t1 = typeof f1;
+    ```
+- `void`型
+  - 戻り値がない関数の戻り値に使う
+- `never`型
+  - `return`もしない（最後まで到達しない）関数の戻り値に使う
+- オプション引数 `?`
+  - `undefined`とのユニオン型になる
+  ```ts
+  function hello(person?: string) { … }
+  ```
+
+## オーバーロード
+```ts
+// 関数シグネチャ部分
+function hello(person: string): void; // シグネチャ1
+function hello(persons: string[]): void; // シグネチャ2
+// 関数の実装部分
+function hello(person: string | string[]): void {
+  if (typeof person === "string") {
+    console.log(`Hello ${person}`);
+  } else {
+    console.log(`Hello ${person.join(",")}`);
+  }
+}
+```
+- シグネチャを列挙し、本体を1つだけ書く
+- シグネチャは具体度が高い順に書く
+
+# 配列の型
+```ts
+// []
+let array: number[];
+
+// Array<>
+let array: Array<number>;
+```
+- 挙動の違いはない
+
+# オブジェクトの型
 ```ts
 let box: { width: number; height: number };
 let calc: {
@@ -39,23 +102,6 @@ let calc: {
         [K: string]: number;
     }
     ```
-
-## その他
-- 配列
-  - Type`[]`
-  - `Array<T>`
-- タプル
-  - `[<type1>, <type2>, …]`
-- 列挙型
-    ```ts
-    enum Posision {
-        Top, Right, Bottom, Left,
-    }
-    ```
-- ユニオン型 `|`
-    ```ts
-    let numberOrUndefined: number | undefined;
-    ```
 - インターセクション型 `&`
   - オブジェクトの交差型
   ```ts
@@ -63,27 +109,36 @@ let calc: {
   type b = { z: number };
   type c = a & b;
   ```
+- constアサーション
+  - オブジェクトリテラルのプロパティを再帰的に`readonly`にする
+
+# その他
 - 型エイリアス `type`
   ```ts
   type StringOrNumber = string | number
   ```
+- 型アサーション
+  - 型情報を指定する
+  ```ts
+  const value: string | number = "***";
+  const len: number = (value as string).length;
+  ```
 - `Record<Keys, Type>`
 
-# アサーション
-- constアサーション
 
 # ジェネリクス
 
 
 # インターフェース
+```ts
+interface I1 {
+    f1(): void;
+}
+```
 
 
 
-
-
-# コンパイルオプション
-
-
-# 構造的部分型
-
-# `tsconfig.json`
+# 
+#### コンパイルオプション
+#### 構造的部分型
+#### `tsconfig.json`
