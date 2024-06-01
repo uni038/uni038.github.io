@@ -127,7 +127,40 @@ let calc: {
 
 
 # ジェネリクス
-
+- `Awaited<T>`
+- `Partial<T>`
+  - オブジェクト型Tに対し、そのすべてのプロパティをオプショナルにした型
+- `Required<T>`
+  - オブジェクト型Tに対し、そのすべてのプロパティを必須にした型
+- `Readonly<T>`
+  - オブジェクト型Tに対し、そのすべてのプロパティをreadonlyにした型
+- `Record<K,T>`
+- `Pick<T,K>`
+- `Omit<T,K>`
+- `Exclude<U,E>`
+  - ユニオン型Uの型のうち、型Eにも属する型をすべて除外した型
+- `Extract<T,U>`
+  - 型Tの中の型のうち、ユニオン型Uにも属する型をすべて取り出した型
+- `NonNullable<T>`
+  - Tからnull, undefinedを取り除いた型
+- `Parameters<T>`
+  - 関数型Tに対し、その引数からなるタプル型
+- `ConstructorParameters<T>`
+  - クラス型Tに対し、そのコンストラクターの引数からなるタプル型
+- `ReturnType<T>`
+  - 関数型Tに対し、その戻り値の型
+- `InstanceType<T>`
+  - Tのコンストラクタが返す型
+- `NoInfer<T>`
+  - 型推論を防ぐ
+- `ThisParameterType<T>`
+- `OmitThisParameter<T>`
+- `ThisType<T>`
+- テンプレートリテラルタイプ
+  - `Uppercase<T>`
+  - `Lowercase<T>`
+  - `Capitalize<T>`
+  - `Uncapitalize<T>`
 
 # インターフェース
 ```ts
