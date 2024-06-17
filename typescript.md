@@ -107,10 +107,19 @@ let calc: {
   ```ts
   type a = { x: number; y: number};
   type b = { z: number };
-  type c = a & b;
+  type c = a & b;  // { x: number, y: number, z: number }
   ```
 - constアサーション
   - オブジェクトリテラルのプロパティを再帰的に`readonly`にする
+- `keyof`演算子
+  - あるオブジェクトに対し、それのプロパティのキーを表す型
+  ```ts
+  type Book = {
+    title: string;
+    price: number;
+  }
+  type BookKey = keyof Book;  // "title" | "price"
+  ```
 
 # その他
 - 型エイリアス `type`
