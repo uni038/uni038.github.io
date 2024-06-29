@@ -1,3 +1,63 @@
+- [対象バージョン: Git 2.43](#対象バージョン-git-243)
+- [用語](#用語)
+  - [remote-tracking branch (追跡ブランチ)](#remote-tracking-branch-追跡ブランチ)
+  - [pathspec](#pathspec)
+  - [ref, refs](#ref-refs)
+  - [refspec](#refspec)
+  - [git clone - リポジトリを複製する](#git-clone---リポジトリを複製する)
+- [ローカル](#ローカル)
+  - [git add - ファイルをインデックスに追加する](#git-add---ファイルをインデックスに追加する)
+  - [git rm -ファイルをインデックスと作業ツリーから除外する](#git-rm--ファイルをインデックスと作業ツリーから除外する)
+  - [git commit - インデックスをコミットする](#git-commit---インデックスをコミットする)
+    - [全般](#全般)
+    - [コミットメッセージ関連](#コミットメッセージ関連)
+  - [git diff - 差分を取る](#git-diff---差分を取る)
+    - [作業ツリー](#作業ツリー)
+    - [コミット間](#コミット間)
+  - [git log - コミットログを見る](#git-log---コミットログを見る)
+  - [git restore - ファイルの復元](#git-restore---ファイルの復元)
+  - [git stash - 一時的な退避](#git-stash---一時的な退避)
+  - [git worktree -](#git-worktree--)
+- [ブランチ](#ブランチ)
+  - [git branch - ブランチの一覧・作成・削除](#git-branch---ブランチの一覧作成削除)
+    - [ブランチを作成する](#ブランチを作成する)
+    - [ブランチの一覧](#ブランチの一覧)
+    - [上流ブランチを設定する](#上流ブランチを設定する)
+    - [ブランチをリネーム/コピー/削除する](#ブランチをリネームコピー削除する)
+  - [git show-branch - ブランチの分岐状況を見る](#git-show-branch---ブランチの分岐状況を見る)
+  - [git checkout - インデックスと作業ツリーを指定した版にする](#git-checkout---インデックスと作業ツリーを指定した版にする)
+    - [ブランチの切り替え](#ブランチの切り替え)
+    - [ブランチの作成](#ブランチの作成)
+    - [detached HEAD](#detached-head)
+    - [インデックスからチェックアウト (git restore)](#インデックスからチェックアウト-git-restore)
+  - [git switch - ブランチの切り替え](#git-switch---ブランチの切り替え)
+  - [git merge - ブランチのマージ](#git-merge---ブランチのマージ)
+- [リモートリポジトリ](#リモートリポジトリ)
+  - [git remote - リモートリポジトリ情報の操作](#git-remote---リモートリポジトリ情報の操作)
+    - [git remote](#git-remote)
+    - [git remote add](#git-remote-add)
+    - [git remote rename](#git-remote-rename)
+    - [git remote remove](#git-remote-remove)
+    - [git remote set-head](#git-remote-set-head)
+    - [git remote set-branches](#git-remote-set-branches)
+    - [git remote get-url](#git-remote-get-url)
+    - [git remote set-url](#git-remote-set-url)
+    - [git remote show](#git-remote-show)
+    - [git remote prune](#git-remote-prune)
+    - [git remote update](#git-remote-update)
+  - [git fetch - 他のリポジトリから object や refs をダウンロードする](#git-fetch---他のリポジトリから-object-や-refs-をダウンロードする)
+  - [git pull -](#git-pull--)
+  - [git push - リモートの参照を更新する](#git-push---リモートの参照を更新する)
+- [コミットの操作](#コミットの操作)
+  - [git rebase - ブランチの根本を付け替える](#git-rebase---ブランチの根本を付け替える)
+  - [git reset - HEAD を指定した状態にリセットする](#git-reset---head-を指定した状態にリセットする)
+  - [git revert - 逆コミットを生成する](#git-revert---逆コミットを生成する)
+- [コンフィグ](#コンフィグ)
+  - [git config](#git-config)
+  - [.gitattributes -](#gitattributes--)
+  - [.gitignore -](#gitignore--)
+- [その他のコマンド](#その他のコマンド)
+
 Git コマンドリファレンス
 
 # 対象バージョン: Git 2.43
@@ -441,14 +501,25 @@ git
 
 ## git checkout - インデックスと作業ツリーを指定した版にする
 
+作業ツリーのファイルを更新して、インデックスまたは指定したツリーの版に合わせる。`<pathspec>`を指定しなかった場合、`HEAD`も変更してカレントブランチを変更する。
+
 ### ブランチの切り替え
 
 ```sh
 git checkout [<branch>]
 ```
 
+インデックスと作業ツリーを`<branch>`の版に変更し、`HEAD`も`<branch>`に変更する。
+
 - `<branch>`
-  - チェックアウトするブランチ。HEAD も変更される。
+  - チェックアウトするブランチ。
+- `--guess`
+  - `<branch>`が存在しないが、名前のマッチする追跡ブランチが単一のリモートにのみ存在するなら、その追跡ブランチを上流ブランチとするブランチを自動的に作成して切り替える。これはデフォルトの挙動である。 \
+    `git checkout -b <branch> --track <remote>/<branch>`
+- `-f | --force`
+  - インデックスや作業ツリーの内容に`HEAD`と差異があっても、ディレクトリに未追跡ファイルがあっても、無視して切り替える。それらの変更は破棄される。
+- `-m | --merge`
+  - 現在のブランチと切り替え先ブランチで異なるファイルに、ローカルな変更が加えられている場合、デフォルトではコマンドが拒否されるが、拒否せずに 3way マージする。インデックスの変更は破棄される。
 
 ### ブランチの作成
 
@@ -456,6 +527,10 @@ git checkout [<branch>]
 git checkout (-b|-B) <new-branch> [<start-point>]
 ```
 
+- `-b`
+  - 新しいブランチを作成してチェックアウトする。
+- `-B`
+  - 既に存在しても強制的に作成する。
 - `<start-point>`
   - 新しいブランチを作成するコミット位置
 
@@ -477,7 +552,15 @@ git checkout [<tree-ish>] [--] <pathspec>…
 指定パスのファイルを上書きする。
 
 - `<tree-ish>`
-  - チェックアウト元。通常はコミット。インデックスと作業ツリーを上書きする。省略した場合はインデックスから作業ツリーへチェックアウトする。
+  - チェックアウト元。通常はコミットを指定する。
+  - 省略された場合はインデックスの内容を作業ツリーにチェックアウトする。
+  - 与えられた場合は、インデックスと作業ツリー両方に`<tree-ish>`の内容をチェックアウトする。
+- `--ours`, `--theirs`
+  - 未マージのファイルを含むインデックスからチェックアウトするときに、どの側面の内容をチェックアウトするかを指定する。
+- `--merge`
+  - インデックスの未マージファイルをチェックアウトするときに、競合状態のマージを再作成する。
+- `--no-overlay`
+  - `<tree-ish>`に存在しないファイルを削除する。デフォルトでは削除しない（`--overlay`）。
 
 ## git switch - ブランチの切り替え
 
@@ -755,18 +838,61 @@ git
 
 - `-`
 
-# Config
+# コンフィグ
 
-## git config -
+## git config
 
 ```sh
-git
+git config <name> [<value> [<value-pattern>]]
+git config --add <name> <value>
+git config --replace-all <name> <value> [<value-pattern>]
+git config --get <name> [<value-pattern>]
+git config --get-all <name> [<value-pattern>]
+git config --get-regexp <name-regex> [<value-pattern>]
+git config --get-urlmatch <name> <URL>
+git config --unset <name> [<value-pattern>]
+git config --unset-all <name> [<value-pattern>]
+git config --rename-section <old-name> <new-name>
+git config --remove-section <name>
+git config (-l | --list)
+git config (-e | --edit)
 ```
 
-- `-`
+- `--add`
+  - 新しい行を追加する。
+- `--replace-all`
+  - マッチするすべての行を置換する。
+- `--get`
+  - 値を返す。
+- `--get-all`
+  - 複数の値を持つキーの場合、すべての値を返す。
+- `--get-regexp`
+  - `--get-all`と同じだが、name を正規表現として解釈する。
+- `--get-urlmatch`
+  - `<name>`を`<section>.<key>`の形式で与えると、`<section>.<URL>.<key>`のうち URL が最もよくマッチするものの値を返す。
+- `--unset`
+  - マッチする行を削除する。
+- `--unset-all`
+  - マッチするすべての行を削除する。
+- `--rename-section`
+  - セクションをリネームする。
+- `--remove-section`
+  - セクションを削除する。
+- `-l | --list`
+  - すべての変数の一覧を表示する。
+- `-e | --edit`
+  - エディタを開いて編集する。
+- `--system`
+  - システム全体の設定。`/etc/gitconfig`
+- `--global`
+  - グローバル設定。`~/.gitconfig`
+- `--local`
+  - リポジトリ固有の設定。`.git/config`
+- `--worktree`
+  - `--local`と同じだが、`extension.worktreeConfig`が有効の場合は`$GIT_DIR/config.worktree`。
 
 ## .gitattributes -
 
 ## .gitignore -
 
-#
+# その他のコマンド
