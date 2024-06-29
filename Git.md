@@ -17,7 +17,8 @@
   - [git log - コミットログを見る](#git-log---コミットログを見る)
   - [git restore - ファイルの復元](#git-restore---ファイルの復元)
   - [git stash - 一時的な退避](#git-stash---一時的な退避)
-  - [git worktree -](#git-worktree--)
+  - [git worktree - 複数の作業ツリー](#git-worktree---複数の作業ツリー)
+  - [git submodule - サブモジュール](#git-submodule---サブモジュール)
 - [ブランチ](#ブランチ)
   - [git branch - ブランチの一覧・作成・削除](#git-branch---ブランチの一覧作成削除)
     - [ブランチを作成する](#ブランチを作成する)
@@ -57,6 +58,13 @@
   - [.gitattributes -](#gitattributes--)
   - [.gitignore -](#gitignore--)
 - [その他のコマンド](#その他のコマンド)
+  - [cat-file - ファイルの内容を表示する](#cat-file---ファイルの内容を表示する)
+  - [check-ignore - .gitignore のチェック](#check-ignore---gitignore-のチェック)
+  - [ls-files - ファイルの情報を表示する](#ls-files---ファイルの情報を表示する)
+  - [ls-tree - ツリーの内容を一覧する](#ls-tree---ツリーの内容を一覧する)
+  - [merge-base - マージベースを探す](#merge-base---マージベースを探す)
+  - [rev-list - コミットオブジェクトを時間逆順で一覧する](#rev-list---コミットオブジェクトを時間逆順で一覧する)
+  - [show-ref - ローカルの参照を一覧する](#show-ref---ローカルの参照を一覧する)
 
 Git コマンドリファレンス
 
@@ -403,13 +411,37 @@ git stash store
 
 - `-`
 
-## git worktree -
+## git worktree - 複数の作業ツリー
 
 ```sh
-git worktree
+git worktree add <path> [<commit-ish>]
+git worktree list
+git worktree lock <worktree>
+git worktree move <worktree> <new-path>
+git worktree prune
+git worktree remove <worktree>
+git worktree repair [<path>…]
+git worktree unlock <worktree>
 ```
 
 - `-`
+
+## git submodule - サブモジュール
+
+```sh
+git submodule
+git submodule add [--] <repository> [<path>]
+git submodule status [--] [<path>…]
+git submodule init [--] [<path>…]
+git submodule deinit (--all | [--] <path>…)
+git submodule update [--] [<path>…]
+git submodule set-branch  [--] <path>
+git submodule set-url [--] <path> <new-url>
+git submodule summary [--] [<path>…]
+git submodule foreach <command>
+git submodule sync [--] [<path>…]
+git submodule absorbgitdirs [--] [<path>…]
+```
 
 # ブランチ
 
@@ -896,3 +928,60 @@ git config (-e | --edit)
 ## .gitignore -
 
 # その他のコマンド
+
+## cat-file - ファイルの内容を表示する
+
+## check-ignore - .gitignore のチェック
+
+```sh
+git check-ignore <pathname>…
+```
+
+渡されたパスが`.gitignore`によってリポジトリから除外されるかどうかをチェックする。
+
+## ls-files - ファイルの情報を表示する
+
+インデックスや作業ツリーにあるファイルの情報を表示する。
+
+```sh
+git ls-files [<options>] [--] [<file>…]
+```
+
+- `-c | --cached`
+  - インデックスのすべてのファイル
+- `-d | --deleted`
+  - 未ステージの削除されたファイル
+- `-m | --modified`
+  - 未ステージの変更されたファイル（未ステージの削除を含む）
+- `-o | --others`
+  - 追跡外ファイル
+- `-s | --staged`
+  - インデックスの内容
+- `<file>`
+  - 表示するファイル。省略した場合はすべてのファイル。
+
+## ls-tree - ツリーの内容を一覧する
+
+ツリーオブジェクトの内容を一覧する
+
+```sh
+git ls-tree <tree-ish> [<path>…]
+```
+
+## merge-base - マージベースを探す
+
+## rev-list - コミットオブジェクトを時間逆順で一覧する
+
+## show-ref - ローカルの参照を一覧する
+
+ローカルの利用可能な ref を一覧表示する。
+
+```sh
+git show-ref [--] [<pattern>…]
+```
+
+形式は以下。`<oid>`=オブジェクト ID、`SP`=スペース、`<ref>`=ref 名、`LF`=行末
+
+```
+<oid> SP <ref> LF
+```
