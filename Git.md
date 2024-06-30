@@ -19,6 +19,19 @@
   - [git stash - 一時的な退避](#git-stash---一時的な退避)
   - [git worktree - 複数の作業ツリー](#git-worktree---複数の作業ツリー)
   - [git submodule - サブモジュール](#git-submodule---サブモジュール)
+    - [.gitmodules](#gitmodules)
+    - [git submodule](#git-submodule)
+    - [git submodule add](#git-submodule-add)
+    - [git submodule status](#git-submodule-status)
+    - [git submodule init](#git-submodule-init)
+    - [git submodule deinit](#git-submodule-deinit)
+    - [git submodule update](#git-submodule-update)
+    - [git submodule set-branch](#git-submodule-set-branch)
+    - [git submodule set-url](#git-submodule-set-url)
+    - [git submodule summary](#git-submodule-summary)
+    - [git submodule foreach](#git-submodule-foreach)
+    - [git submodule sync](#git-submodule-sync)
+    - [git submodule absorbgitdirs](#git-submodule-absorbgitdirs)
 - [ブランチ](#ブランチ)
   - [git branch - ブランチの一覧・作成・削除](#git-branch---ブランチの一覧作成削除)
     - [ブランチを作成する](#ブランチを作成する)
@@ -65,6 +78,7 @@
   - [merge-base - マージベースを探す](#merge-base---マージベースを探す)
   - [rev-list - コミットオブジェクトを時間逆順で一覧する](#rev-list---コミットオブジェクトを時間逆順で一覧する)
   - [show-ref - ローカルの参照を一覧する](#show-ref---ローカルの参照を一覧する)
+  - [git describe - オブジェクトの human-readable な名前を返す](#git-describe---オブジェクトの-human-readable-な名前を返す)
 
 Git コマンドリファレンス
 
@@ -428,20 +442,145 @@ git worktree unlock <worktree>
 
 ## git submodule - サブモジュール
 
+- サブモジュールは通常以下のものからなる。
+  1. スーパープロジェクトの`$GIT_DIR/modules/`に置かれた Git ディレクトリ
+  2. スーパープロジェクトの作業ディレクトリ内に置かれた作業ディレクトリ
+  3. サブモジュールの作業ディレクトリのルートに置かれて、1.のディレクトリを参照する`.git`ファイル
+
+### .gitmodules
+
+- 作業ツリーの一番上に置くファイル。書式は通常の config ファイルと同じ。
+- サブモジュール 1 つごとに 1 つのサブセクションを持ち、サブセクションの名前はサブモジュールのパスである。名前は `git module add` の `--name` オプションで変更できる。
+- 以下のキーはサブモジュール毎に必須のキーである。
+  - `submodule.<name>.path`
+    - サブモジュールがチェックアウトされるパス。作業ツリーのトップレベルからの相対パスで指定する。パスの末尾は `/` で終わることはできない。`.gitmodules`のすべてのサブモジュールパスは一意であること。
+  - `submodule.<name>.url`
+    - サブモジュールのクローン元。URL で指定するか、スーパープロジェクトの origin リポジトリに対する相対位置で指定する。
+- 以下のキーはオプションである。
+  - `submodule.<name>.update`
+    - スーパープロジェクトで`git submodule update`したときの、サブモジュールのデフォルトのアップデート手順。
+    - `check`
+    - `rebase`
+    - `merge`
+    - `none`
+  - `submodule.<name>.branch`
+    - 上流サブモジュール内の更新を追跡するための、リモートブランチ名。省略した場合、リモートの`HEAD`。
+    - `.`で、サブモジュールのブランチがカレントリポジトリのカレントブランチと同名であることを表す。
+  - `submodule.<name>.fetchRecurseSubmodules`
+    - サブモジュールの再帰的なフェッチを制御する。スーパープロジェクトの config 内のサブモジュールのセクションにこれを指定すると、`.gitmodules`の設定を上書きする。`git fetch`や`git pull`の`--recurse-submodules`オプションで上書きされる。
+  - `submodule.<name>.ignore`
+    - `git status`や diff がサブモジュールの変更を表示するかを制御する。スーパープロジェクトの`.git/config`のサブモジュールのセクションに指定すると`.gitmodules`の設定を上書きする。
+    - `all`
+      - サブモジュールの変更をすべて無視する。
+    - `dirty`
+      - サブモジュールの作業ツリーへの変更を無視し、コミットされた変更のみを考慮する。
+    - `untracked`
+      - サブモジュール内の追跡外ファイルのみ無視する。追跡下ファイルのコミットされた差分や変更は表示する。
+    - `none` （デフォルト）
+      - 変更を無視しない。
+  - `submodule.<name>.shallow`
+    - サブモジュールのクローンをシャロークローン（履歴の深さ 1 のクローン）にする。
+
+### git submodule
+
 ```sh
 git submodule
+```
+
+既存のサブモジュールのステータスを表示する。
+
+### git submodule add
+
+```sh
 git submodule add [--] <repository> [<path>]
+```
+
+リポジトリをサブモジュールとして追加する。
+
+- `<repository>`
+  - サブモジュールとして追加するリポジトリ。URL か、またはスーパープロジェクトから見た相対パス。
+- `<path>`
+  - スーパープロジェクト内におけるサブモジュールのパス。
+
+### git submodule status
+
+```sh
 git submodule status [--] [<path>…]
+```
+
+サブモジュールのステータスを見る。
+
+### git submodule init
+
+```sh
 git submodule init [--] [<path>…]
+```
+
+インデックスに記録されているサブモジュールを初期化する。
+
+### git submodule deinit
+
+```sh
 git submodule deinit (--all | [--] <path>…)
+```
+
+サブモジュールの登録を解除する。
+
+### git submodule update
+
+```sh
 git submodule update [--] [<path>…]
+```
+
+登録されているサブモジュールをアップデートし、スーパープロジェクトが期待している状態にする。不足しているサブモジュールはクローンし、不足しているコミットはフェッチし、サブモジュールの作業ツリーをアップデートする。
+
+### git submodule set-branch
+
+```sh
 git submodule set-branch  [--] <path>
+```
+
+サブモジュールのデフォルトのリモート追跡ブランチを設定する。
+
+### git submodule set-url
+
+```sh
 git submodule set-url [--] <path> <new-url>
+```
+
+指定したサブモジュールの URL を再設定する。
+
+### git submodule summary
+
+```sh
 git submodule summary [--] [<path>…]
+```
+
+指定したコミットと作業ツリー（またはインデックス）の間のコミット要約を表示する。
+
+### git submodule foreach
+
+```sh
 git submodule foreach <command>
+```
+
+チェックアウトされている各サブモジュールに対し、任意のシェルコマンドの結果を評価する。
+
+### git submodule sync
+
+```sh
 git submodule sync [--] [<path>…]
+```
+
+サブモジュールのリモート URL 設定を、`.gitmodules`の値に同期する。
+
+### git submodule absorbgitdirs
+
+```sh
 git submodule absorbgitdirs [--] [<path>…]
 ```
+
+サブモジュールの中にそのサブモジュールの git ディレクトリがある場合、スーパープロジェクトの`$GIT_DIR/modules`に移動する。
 
 # ブランチ
 
@@ -985,3 +1124,20 @@ git show-ref [--] [<pattern>…]
 ```
 <oid> SP <ref> LF
 ```
+
+## git describe - オブジェクトの human-readable な名前を返す
+
+```sh
+git describe [<commit-ish>]
+git describe --dirty[=<mark>]
+git describe <blob>
+```
+
+`<commit-ish>`の直近のタグを探し、そこを基準とした`<commit-ish>`の呼称を返す。
+
+- `<commit-ish>`
+  - describe するオブジェクトの名前。デフォルトは`HEAD`。
+- `<blob>`
+  - blob を指定した場合、blob の位置が`<path>`だとして、`<commit-ish>:<path>`が渡されたものとして扱う。
+- `--dirty[=<mark>]`
+  - 作業ツリーの状態を describe する。
