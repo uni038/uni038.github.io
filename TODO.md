@@ -6,3 +6,24 @@
   - WebAssembly
 - Node.js (/w npm)
 - Python
+  - **string**
+  - **re**
+  - textwrap?
+  - **collections**
+  - array
+  - pprint
+  - **pathlib**
+  - **os.path**
+  - tempfile
+  - tomllib
+  - **logging**
+  - cmd
+  - **typing**
+  - test
+  - venv
+  - timeit
+  - trace
+  - tracemalloc
+  - sys
+  - **dataclasses**
+  - contextlib
