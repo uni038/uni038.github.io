@@ -1,4 +1,12 @@
 - [一覧](#一覧)
+- [テキスト](#テキスト)
+  - [`string`](#string)
+  - [`re`](#re)
+- [データ型](#データ型)
+  - [`collections`](#collections)
+- [ファイルとディレクトリ](#ファイルとディレクトリ)
+  - [`pathlib`](#pathlib)
+  - [`os.path`](#ospath)
 
 v3.12.4
 
@@ -273,3 +281,203 @@ v3.12.4
   - `fcntl`
   - `resource`
   - `syslog`
+
+# テキスト
+
+## `string`
+
+- 文字クラス
+  - `string.ascii_letters`, `string.whitespace`など
+- `Formatter`クラス
+  - `str.format()`と同様の文字列フォーマットを行うクラス。
+- `Template`クラス
+  - javascript のようなテンプレート文字列を実現するクラス。文字列中の`$value`を`value`の値に置き換える。
+
+## `re`
+
+正規表現。
+
+- `re.compile()` 正規表現文字列を正規表現オブジェクトにコンパイルする
+- `re.search()` 最初にマッチする箇所のマッチオブジェクトを返す
+- `re.match()` 先頭がマッチする場合のみ、マッチオブジェクトを返す
+- `re.fullmatch()` 全体がパターン文字列にマッチする場合のみ、マッチオブジェクトを返す
+- `re.split()` マッチ箇所で分割した文字列を返す
+- `re.findall()` すべてのマッチ文字列のリストを返す。パターンがグループを持つ場合はタプルのリストを返す
+- `re.finditer()` マッチオブジェクトを yield するイテレータを返す
+- `re.sub()` 一番左でマッチした箇所を置換した文字列を返す
+- `re.subn()` 一番左でマッチした箇所を置換した文字列と、置換した数とのタプルを返す
+- `re.escape()`
+- 正規表現オブジェクト `re.Pattern`
+  - `Pattern.search()`
+  - `Pattern.match()`
+  - `Pattern.fullmatch()`
+  - `Pattern.split()`
+  - `Pattern.findall()`
+  - `Pattern.finditer()`
+  - `Pattern.sub()`
+  - `Pattern.subn()`
+  - `Pattern.flags`
+  - `Pattern.groups`
+  - `Pattern.pattern` 元のパターン文字列
+- マッチオブジェクト `re.Match`
+  - `Match.expand()`
+  - `Match.group()` マッチグループ
+  - `Match.groups()` すべてのマッチグループのタプル
+  - `Match.groupdict()` グループの辞書。キーはグループ名
+  - `Match.start()`
+  - `Match.end()`
+  - `Match.span()`
+  - `Match.pos()`
+  - `Match.endpos()`
+  - `Match.lastindex()`
+  - `Match.lastgroup()`
+  - `Match.re()` マッチに使用した正規表現オブジェクト
+  - `Match.string()` 文字列
+
+# データ型
+
+## `collections`
+
+使えそうな順。
+
+- `defaultdict`オブジェクト
+  - 存在しないキーが`[]`（`__getitem__()`）で呼び出された場合にデフォルト値を返す辞書。
+  - デフォルト値を返す関数をコンストラクタに渡して生成する。
+- `ChainMap`オブジェクト
+  - 複数の辞書を結合した辞書
+  - もとの辞書の要素をコピーするのではなく、参照として保持する
+  - 辞書以外にも Mapping オブジェクト全般を結合できる
+- `Counter`オブジェクト
+  - 数を数える。
+  - キーに数える対象、値に数を持つ辞書
+- `deque`オブジェクト
+  - 両端キュー。先頭と終端両方から要素を追加・削除できる。
+  - `list`は計算量以外の違いはない。
+- `OrderedDict`オブジェクト
+  - 順序付き辞書。3.7 で通常の`dict`が順序を保証する様になったので必要性はなくなった。
+- `UserDict`
+  - `dict`のサブクラスを作れなかった時代のもの。以下も同じ。
+- `UserList`
+- `UserString`
+- `namedtuple()`関数
+  - 名前付きタプル。
+  - 型注釈がつけられないので`typing.NamedTuple`のほうが良い。
+
+# ファイルとディレクトリ
+
+## `pathlib`
+
+パスの抽象化
+
+- 純粋パス `PurePath`
+  - 演算子`/`を使って子パスを作成できる
+  - `PurePath.parts` パスの各セグメントのタプル
+  - `PurePath.drive`
+  - `PurePath.root`
+  - `PurePath.anchor` ドライブ＋ルート
+  - `PurePath.parent` 1 つ上の上位パス
+  - `PurePath.parents[index]` index 個上の上位パス
+  - `PurePath.name` 末尾
+  - `PurePath.suffix` 拡張子
+  - `PurePath.suffixex` 拡張子のリスト。拡張子が多重になっている場合用
+  - `PurePath.stem` 末尾から拡張子を取り除いた部分
+  - `PurePath.as_posix()` `\`を`/`に置換したパス
+  - `PurePath.as_uri()` 先頭に`file://`を追加した URI 形式
+  - `PurePath.is_absolute()`
+  - ~~`PurePath.is_relative_to()`~~
+  - `PurePath.is_reserved()`
+  - `PurePath.joinpath()`
+  - `PurePath.match()` このパスが指定した glob にマッチするかどうか
+    - glob が相対の場合、パスを下から遡ってマッチする。
+    - glob が絶対の場合、パスは絶対パスでなければマッチしない。
+  - `PurePath.relative_to()` 指定パスからこのパスへの相対パス
+  - `PurePath.with_name()` 末尾を指定した名前に変更したパス
+  - `PurePath.with_stem()` stem を変更したパス
+  - `PurePath.with_suffix()` suffix を変更したパス
+  - `PurePath.with_segments()` parent や relative_to()が呼び出されたときに実行する関数
+- 具象パス `Path`
+  - classmethod `Path.home()` ホームディレクトリの具象パス
+  - classmethod `Path.cwd()` カレントディレクトリの具象パス
+  - `Path.absolute()` 絶対パスの具象パス。リンクは解決しない
+  - `Path.resolve()` 絶対パスの具象パス。リンクを解決する
+  - `Path.readlink()` リンクの参照先の具象パス
+  - ファイルタイプとステータス
+    - `Path.stat()`
+    - `Path.lstat()`
+    - `Path.exists()`
+    - `Path.is_file()`
+    - `Path.is_dir()`
+    - `Path.is_symlink()`
+    - `Path.is_junction()`
+    - `Path.is_mount()`
+    - `Path.is_socket()`
+    - `Path.is_fifo()`
+    - `Path.is_block_device()`
+    - `Path.is_char_device()`
+    - `Path.samefile()`
+  - 読み書き
+    - `Path.open()`
+    - `Path.read_text()`
+    - `Path.read_bytes()`
+    - `Path.write_text()`
+    - `Path.write_bytes()`
+  - ディレクトリ
+    - `Path.iterdir()` ディレクトリの内容の具象パスを yield する
+    - `Path.glob()` このパスを基準に、指定した glob に一致するすべてのファイルを yield する
+    - `Path.rglob()` glob() と同じだが、指定した glob の先頭に`**/`を追加する
+    - `Path.walk()` 下位のディレクトリ名とその中のディレクトリ・ファイルのタプルを再帰的に yield する
+  - ファイル・ディレクトリの作成
+    - `Path.touch()`
+    - `Path.mkdir()`
+    - `Path.symlink_to()`
+    - `Path.hardlink_to()`
+  - `Path.rename()`
+  - `Path.replace()`
+  - `Path.unlink()`
+  - `Path.rmdir()`
+  - パーミッション
+    - `Path.owner()`
+    - `Path.group()`
+    - `Path.chmod()`
+    - `Path.lchmod()`
+
+## `os.path`
+
+- パスの取得
+  - `os.path.abspath()` 絶対パス
+  - `os.path.basename()` ファイル名部分
+  - `os.path.commonpath()` 複数のパスの共通部分
+  - ~~`os.path.commonprefix()`~~
+  - `os.path.dirname()` ディレクトリ名
+  - `os.path.realpath()` シンボリックリンクを解決したパス
+  - `os.path.relpath()` 指定したディレクトリから見た相対パス
+- パス操作
+  - `os.path.expanduser()` パス先頭の`~`をユーザホームに置き換える
+  - `os.path.expandvars()` パス内の環境変数を展開する
+  - `os.path.join()` パスを結合する
+  - `os.path.normname()` (Win) パスの大文字を小文字に、`/`を`\`に正規化する
+  - `os.path.normpath()` パスを正規化する
+  - `os.path.split()` パスを構成要素の末尾とそれ以外に分割する
+    - 末尾が`/`を含むことはない。パスが`/`で終わる場合、末尾は空文字列になる
+    - 末尾を除いた部分の最後の`/`は取り除かれる
+  - `os.path.splitdrive()` パスをドライブレターとそれ以外に分割する。UNC パスの場合はホストネームとそれ以外に分割する。
+  - `os.path.splitroot()` パスをドライブ、ルートパス、それ以外に分割する
+  - `os.path.splitext()` パスを拡張子とそれ以外に分割する
+- パスの判定
+  - `os.path.exists()` パスが存在しているかどうか
+  - `os.path.lexists()` exists と同じだが、壊れたシンボリックリンクも True
+  - `os.path.isabs()` パスが絶対パスかどうか
+  - `os.path.isfile()` パスがファイルかどうか
+  - `os.path.isdir()` パスがディレクトリかどうか
+  - `os.path.isjunction()` (NTFS) パスがジャンクションかどうか
+  - `os.path.islink()` パスがシンボリックリンクかどうか
+  - `os.path.ismount()` パスがマウントポイントかどうか
+  - `os.path.isdevdrive()` パスが WindowsDevDrive かどうか
+  - `os.path.samefile()` 2 つのパスが同じものを参照しているかどうか
+  - `os.path.sameopenfile()` 2 つのファイルディスクリプタが同じファイルを参照しているかどうか
+  - `os.path.samestat()` 2 つの stat が同じファイルを参照しているかどうか（→`os.stat()`）
+- 情報
+  - `os.path.getatime()` 最終アクセス時刻
+  - `os.path.getmtime()` 最終更新時刻
+  - `os.path.getctime()` (Unix) 最後にメタデータが変更された時刻 (Win) 作成時刻
+  - `os.path.getsize()` ファイルサイズ
