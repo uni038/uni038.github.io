@@ -1,19 +1,67 @@
 - [一覧](#一覧)
+- [組み込み関数](#組み込み関数)
 - [テキスト](#テキスト)
   - [`string`](#string)
   - [`re`](#re)
+  - [`textwrap`](#textwrap)
 - [データ型](#データ型)
   - [`collections`](#collections)
   - [`collections.abc`](#collectionsabc)
+  - [`copy`](#copy)
+  - [`pprint`](#pprint)
+  - [`enum`](#enum)
 - [関数型プログラミング](#関数型プログラミング)
+  - [`itertools`](#itertools)
   - [`functools`](#functools)
 - [ファイルとディレクトリ](#ファイルとディレクトリ)
   - [`pathlib`](#pathlib)
   - [`os.path`](#ospath)
+  - [`fileinput`](#fileinput)
+  - [`glob`](#glob)
+  - [`fnmatch`](#fnmatch)
+  - [`shutil`](#shutil)
+- [データの永続化](#データの永続化)
+  - [`sqlite3`](#sqlite3)
+- [ファイルフォーマット](#ファイルフォーマット)
+  - [`csv`](#csv)
+  - [`configparser`](#configparser)
+  - [`tomllib`](#tomllib)
+- [OS サービス](#os-サービス)
+  - [`os`](#os)
+  - [`io`](#io)
+  - [`argparse`](#argparse)
+  - [`logging`](#logging)
+- [並列](#並列)
+  - [`threading`](#threading)
+  - [`multiprocessing`](#multiprocessing)
+  - [`subprocess`](#subprocess)
+- [非同期](#非同期)
+  - [`asyncio`](#asyncio)
+- [インターネットデータ](#インターネットデータ)
+  - [`json`](#json)
+- [インターネットプロトコル](#インターネットプロトコル)
+  - [`urllib`](#urllib)
+  - [`http.client`](#httpclient)
+  - [`http.server`](#httpserver)
+- [プログラムフレームワーク](#プログラムフレームワーク)
+  - [`cmd`](#cmd)
 - [開発ツール](#開発ツール)
   - [`typing`](#typing)
+  - [`unittest`](#unittest)
+- [デバッグとプロファイル](#デバッグとプロファイル)
+  - [`cProfile`, `profile`](#cprofile-profile)
+  - [`timeit`](#timeit)
+  - [`tracemalloc`](#tracemalloc)
+- [配布](#配布)
+  - [`venv`](#venv)
+  - [`zipapp`](#zipapp)
 - [Python ランタイムサービス](#python-ランタイムサービス)
+  - [`sys`](#sys)
   - [`dataclasses`](#dataclasses)
+  - [`contextlib`](#contextlib)
+  - [`abc`](#abc)
+- [Windows](#windows)
+  - [`winreg`](#winreg)
 
 v3.12.4
 
@@ -289,6 +337,88 @@ v3.12.4
   - `resource`
   - `syslog`
 
+# 組み込み関数
+
+- 組み込み型
+  - `bool`
+  - `bytearray`
+  - `bytes`
+  - `complex`
+  - `dict`
+  - `float`
+  - `frozenset`
+  - `int`
+  - `list`
+  - `memoryview`
+  - `object`
+  - `property`
+  - `range`
+  - `set`
+  - `slice`
+  - `str`
+  - `super`
+  - `tuple`
+  - `type`
+- 文字列
+  - `ascii()`
+  - `bin()`
+  - `chr()`
+  - `format()`
+  - `hex()`
+  - `oct()`
+  - `ord()`
+- 数学
+  - `abs()`
+  - `divmod()`
+  - `max()`
+  - `min()`
+  - `pow()`
+  - `round()`
+  - `sum()`
+- データ構造
+  - `aiter()`
+  - `all()`
+  - `anext()`
+  - `any()`
+  - `enumerate()`
+  - `filter()`
+  - `iter()`
+  - `len()`
+  - `map()`
+  - `next()`
+  - `reversed()`
+  - `sorted()`
+  - `zip()`
+- クラスやオブジェクト
+  - `@classmethod`
+  - `delattr()`
+  - `getattr()`
+  - `hasattr()`
+  - `id()`
+  - `isinstance()`
+  - `issubclass()`
+  - `repr()`
+  - `setattr()`
+  - `@staticmethod`
+  - `vars()`
+  - `hash()`
+- python の実行
+  - `breakpoint()`
+  - `callable()`
+  - `compile()`
+  - `dir()`
+  - `eval()`
+  - `exec()`
+  - `globals()`
+  - `help()`
+  - `input()`
+  - `locals()`
+- IO
+  - `open()`
+  - `print()`
+- その他
+  - `__import__()`
+
 # テキスト
 
 ## `string`
@@ -340,6 +470,8 @@ v3.12.4
   - `Match.lastgroup()`
   - `Match.re()` マッチに使用した正規表現オブジェクト
   - `Match.string()` 文字列
+
+## `textwrap`
 
 # データ型
 
@@ -424,7 +556,30 @@ v3.12.4
   - `ItemsView` (MappingView, Set)
   - `KeysView` (MappingView, Set)
 
+## `copy`
+
+- `copy()` シャローコピー
+- `deepcopy()` ディープコピー
+
+## `pprint`
+
+- `pp()`
+- `pprint()`
+- `pformat()`
+- `isreadable()`
+- `isrecursive()`
+- `saferepr()`
+- (class) `PrettyPrinter`
+
+## `enum`
+
+列挙型。
+
 # 関数型プログラミング
+
+## `itertools`
+
+便利なイテレータ。
 
 ## `functools`
 
@@ -580,6 +735,64 @@ v3.12.4
   - `os.path.getctime()` (Unix) 最後にメタデータが変更された時刻 (Win) 作成時刻
   - `os.path.getsize()` ファイルサイズ
 
+## `fileinput`
+
+## `glob`
+
+## `fnmatch`
+
+## `shutil`
+
+# データの永続化
+
+## `sqlite3`
+
+# ファイルフォーマット
+
+## `csv`
+
+## `configparser`
+
+## `tomllib`
+
+# OS サービス
+
+## `os`
+
+## `io`
+
+## `argparse`
+
+## `logging`
+
+# 並列
+
+## `threading`
+
+## `multiprocessing`
+
+## `subprocess`
+
+# 非同期
+
+## `asyncio`
+
+# インターネットデータ
+
+## `json`
+
+# インターネットプロトコル
+
+## `urllib`
+
+## `http.client`
+
+## `http.server`
+
+# プログラムフレームワーク
+
+## `cmd`
+
 # 開発ツール
 
 ## `typing`
@@ -707,12 +920,50 @@ v3.12.4
   - (class) `Coroutine`, `AsyncGenerator`, `AsyncIterable`, `AsyncIterator`, `Awaitable`
   - (class) `Iterable`, `Iterator`, `Callable`, `Generator`, `Hashable`, `Reversible`, `Sized`
   - (class) `ContextManager`, `AsyncContextManager`
-
----
-
 - ellipsis
 
+## `unittest`
+
+# デバッグとプロファイル
+
+## `cProfile`, `profile`
+
+## `timeit`
+
+- `timeit()`
+- `repeat()`
+- `default_timer()`
+- (class) `Timer`
+
+## `tracemalloc`
+
+# 配布
+
+## `venv`
+
+## `zipapp`
+
+- `create_archive()`
+- `get_interpreter()`
+
 # Python ランタイムサービス
+
+## `sys`
+
+- `argv` 引数
+- `executable` python インタプリタの実行ファイルのパス
+- `exit()` SystemExit 例外を発生させインタプリタを終了する
+- `getfilesystemencoding()` システムのエンコーディング
+- `getsizeof()` オブジェクトのバイト数を返す
+- `implementation` python インタプリタの実装に関する情報
+- `modules` ロード済みのモジュール
+- `path` モジュールの検索パス
+- `stdin` 標準入力
+- `stdout` 標準出力
+- `stderr` 標準エラー出力
+- `thread_info`
+- `version`
+- `version_info`
 
 ## `dataclasses`
 
@@ -742,3 +993,15 @@ v3.12.4
   - オブジェクトがデータクラスまたはデータクラスオブジェクトなら True
 - `__post_init__()`
   - データクラス内で定義されていると、フィールドの初期化が行われた後に呼ばれる。
+
+## `contextlib`
+
+## `abc`
+
+- (class) `ABC`
+- (class) `ABCMeta`
+- `@abstracctmethod`
+
+# Windows
+
+## `winreg`
