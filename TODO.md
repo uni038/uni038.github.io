@@ -6,14 +6,14 @@
   - WebAssembly
 - Node.js (/w npm)
 - Python
-  - **string**
-  - **re**
+  - ~~**string**~~
+  - ~~**re**~~
   - textwrap?
-  - **collections**
+  - ~~**collections**~~
   - array
   - pprint
-  - **pathlib**
-  - **os.path**
+  - ~~**pathlib**~~
+  - ~~**os.path**~~
   - tempfile
   - tomllib
   - **logging**

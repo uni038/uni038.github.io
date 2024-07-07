@@ -4,9 +4,16 @@
   - [`re`](#re)
 - [データ型](#データ型)
   - [`collections`](#collections)
+  - [`collections.abc`](#collectionsabc)
+- [関数型プログラミング](#関数型プログラミング)
+  - [`functools`](#functools)
 - [ファイルとディレクトリ](#ファイルとディレクトリ)
   - [`pathlib`](#pathlib)
   - [`os.path`](#ospath)
+- [開発ツール](#開発ツール)
+  - [`typing`](#typing)
+- [Python ランタイムサービス](#python-ランタイムサービス)
+  - [`dataclasses`](#dataclasses)
 
 v3.12.4
 
@@ -361,7 +368,98 @@ v3.12.4
 - `UserString`
 - `namedtuple()`関数
   - 名前付きタプル。
+  - `namedtuple("typename", ["x", "y"])`で typename という名前の x と y という属性を持つ名前付きタプルを作成する。
   - 型注釈がつけられないので`typing.NamedTuple`のほうが良い。
+
+## `collections.abc`
+
+コンテナの基底抽象クラス
+
+- 1 次クラス
+  - `Container`
+    - 抽象：`__contains__`
+  - `Hashable`
+    - 抽象：`__hash__`
+  - `Iterable`
+    - 抽象：`__iter__`
+  - `Sized`
+    - 抽象：`__len__`
+  - `Callable`
+    - 抽象：`__call__`
+  - `Awaitable`
+    - 抽象：`__await__`
+  - `AsyncIterable`
+    - 抽象：`__aiter__`
+  - `Buffer`
+    - 抽象：`__buffer__`
+- 2 次クラス
+  - `Iterator` (Iterable)
+    - mixin：`__iter__`
+    - 抽象：`__next__`
+  - `Reversible` (Iterable)
+    - 抽象：`__reversed__`
+  - `Collection` (Sized, Iterable, Container)
+    - 抽象：`__contains__`, `__iter__`, `__len__`
+  - `MappingView` (Sized)
+  - `Coroutine` (Awaitable)
+  - `AsyncIterator` (AsyncIterable)
+- 3 次クラス
+  - `Generator` (Iterator)
+    - mixin：`close`, `__iter__`, `__next__`
+    - 抽象：`send`, `throw`
+  - `Sequence` (Reversible, Collection)
+    - mixin：`__contains__`, `__iter__`, `__reversed__`, `index`, `count`
+    - 抽象：`__getitem__`, `__len__`
+  - `Set` (Collection)
+  - `Mapping` (Collection)
+  - `ValuesView` (MappingView, Collection)
+  - `AsyncGenerator` (AsyncIterator)
+- 4 次クラス
+  - `MutableSequence` (Sequence)
+    - mixin：Sequence から継承したメソッドと`append`, `clear`, `reverse`, `extend`, `pop`, `remove`, `__iadd__`
+    - 抽象：`__getitem__`, `__setitem__`, `__delitem__`, `__len__`, `insert`
+  - ~~`ByteString` (Sequence)~~ 3.14 で削除
+  - `MutableSet` (Set)
+  - `MutableMapping` (Mapping)
+  - `ItemsView` (MappingView, Set)
+  - `KeysView` (MappingView, Set)
+
+# 関数型プログラミング
+
+## `functools`
+
+関数に対する操作。
+
+- `@cache`
+  - 関数の戻り値をキャッシュする。`lru_cache(maxsize=None)`と等価。
+- `@cached_property`
+  - クラスのメソッドの戻り値をキャッシュし、プロパティに変換する。
+- `cmp_to_key()`
+- `@lru_cache`
+  - 関数の戻り値をキャッシュする。キャッシュの最大個数を指定できる。
+- `@total_ordering`
+  - 1 つ以上の順序比較メソッド（`__lt__`, `__le__`, `__gt__`, `__ge__`）と`__eq__`が定義されているクラスを受取り、残りの順序比較メソッドを実装したクラスを返すデコレータ。
+- `partial()`
+  - 関数と位置引数、キーワード引数を受取り、partial オブジェクトを生成する。
+  - partial オブジェクトは、元の関数にそれらの引数がデフォルト値として設定されたもののように振る舞う。
+- (class) `partial`
+  - partial() によって生成される呼び出し可能オブジェクト。
+- (class) `partialmethod`
+  - partial() と同様に、メソッドを partial 化する。
+  - partial 化したメソッドを直接呼び出すのではなく、メソッドの定義に使用する。
+- `reduce()`
+  - javascript の reduce() と同じ機能。2 つの引数を持つ関数を iterable に左から順に適用し、最終的に単一の値を返す。
+- `@singledispatch`
+  - 関数をシングルディスパッチなジェネリック関数に変換する。
+  - 別な場所から`@<funcname>.register`デコレータを用いて、第 1 引数の型に応じた別の実装を追加できるようになる。
+- (class) `singledispatchmethod`
+- `update_wrapper()`
+  - ラッパーをラップする関数。ラッパーが返す関数の属性を差し替える。
+  - update_wrapper はラッパー関数 wrapper とラップされる関数 wrapped を引数として受け取り、新しいラッパー関数を返す。新しいラッパー関数が返す関数は、もとのラッパー関数 wrapper が返す関数の属性の一部を、wrapped の属性で置き換えたものである。
+  - デフォルトでは`__module__`, `__name__`, `__qualname__`, `__annotations__`, `__type_params__`, `__doc__`を上書きする。
+  - `@wraps`を用いてこれをデコレータ内のラッパーに適用することで、ラッパーを更新し、ラップされる関数の属性で上書きできる。
+- `@wraps`
+  - ラップされる関数を引数 wrapped として受け取り、デコレートした関数をラッパーとして、update_wrapper() を呼び出す。
 
 # ファイルとディレクトリ
 
@@ -481,3 +579,166 @@ v3.12.4
   - `os.path.getmtime()` 最終更新時刻
   - `os.path.getctime()` (Unix) 最後にメタデータが変更された時刻 (Win) 作成時刻
   - `os.path.getsize()` ファイルサイズ
+
+# 開発ツール
+
+## `typing`
+
+- 組み込みの`type`
+  - `type`文（組み込み）
+    > https://docs.python.org/ja/3.12/reference/simple_stmts.html#the-type-statement
+    ```
+    type_stmt ::=  'type' identifier [type_params] "=" expression
+    ```
+    - 型エイリアスを定義する。
+    - 型エイリアス自体の型は`typing.TypeAliasType`である。
+  - (class) `TypeAliasType`
+    - `type`文で定義された型エイリアスの型。
+  - (class) `type`（組み込み）
+    - 型オブジェクト。
+    - コンストラクタに型を渡すと、その型を表す型オブジェクトを生成する。
+      ```python
+      t: type = type(int)
+      ```
+    - (GenericAlias) `type[T]`
+      - `T`とみなせる型（`T`または`T`のサブクラス）を表す、ジェネリックな型オブジェクト。
+- 特殊な型
+  - (meta) `Any` 制約のないことを意味する型
+  - (TypeVar) `AnyStr`
+    - `str`か`bytes`を表す、定義済みの型変数。文字列系の関数向けの型
+  - (class) `Annotated`
+    - `Annotated[<type>, <metadata>]`の形式でメタデータを付加できる。
+    - ※通常のクラスであり、特殊形式ではない。
+- 特殊な形式（Special Form）
+  - Special Form
+    - `LiteralString`
+      - 文字列のリテラルを意味する型。`str`は拒否する
+      - 文字列リテラル同士の演算は受け入れることに注意。
+    - `Never`, `NoReturn`
+      - `return`しない関数の戻り値に使用する型。
+    - `Self` クラス内において、現在のクラスを表すのに使用する型。
+    - ~~`TypeAlias` 型エイリアスであることを意味する型。~~ --> 3.12 で非推奨。`type`文を推奨
+    - `Union[]`
+      - 3.10 以降は`|`でもよい。
+    - `Optional[]`
+      - `Optional[X]` は `Union[X, None]` と基本的に同義。
+    - `Concatenate[]`
+      - `ParamSpec`を結合する。
+      - 高階関数（callable を引数に取る関数）向け。
+    - `Literal[]` 指定したリテラルのみ許容する型。
+    - `ClassVar[]` クラス変数であることを示すために使うラッパー。
+    - `Final[]` 再アサイン禁止であることを示すラッパー。
+      - `[]`は省略可。
+      - クラス内の場合、サブクラスでのオーバーライドも禁止される。
+    - `Required[]`, `NotRequired[]`
+      - `TypedDict`のキーが必須である、または必須でないことを示すためのラッパー。
+    - `TypeGuard[]` タイプガード関数の戻り値に使うラッパー。
+    - `Unpack[]`
+      - 型変数のタプル（`TypeVarTuple`）をアンパックすることを表すラッパー。
+      - TypeVarTuple の頭にアンパック演算子`*` をつけるのと同じ。
+- ジェネリック型
+  - class
+    - `Generic` ジェネリッククラスの抽象基底クラス
+    - `TypeVar` 型変数クラス。
+      - ジェネリック型の`[]`内の変数は TypeVar 型である。
+      - ...
+    - `TypeVarTuple` 型変数のタプルを表すクラス。
+      - 型変数の前に`*`をつけるとそれは`TypeVarTuple`になる。
+    - `ParamSpec` callable の引数の型の指定であることを表すためのクラス。
+      - 型変数の前に`**`をつけるとそれは`ParamSpec`になる。
+        ```python
+        def add_logging[T, **P](f: Callable[P, T]) -> Callable[P, T]:
+        ```
+      - `ParamSpec.args`, `ParamSpec.kwargs`
+    - `ParamSpecArgs`, `ParamSpecKwargs`
+      - `ParamSpec.args`および`ParamSpec.kwargs`の型。
+- その他
+  - (function) `NamedTuple()`関数
+    - `collections.namedtuple()`の型注釈付き版。
+  - (class) `NewType`
+    - 型注釈にのみ使える型。
+    - 元にした型のサブクラスのように扱われる。
+  - (meta) `Protocol` プロトコルクラスの基底クラス。構造的部分型を実現する
+  - `@runtime_checkable`
+  - (function) `TypedDict()`関数
+- プロトコル
+  - Protocol
+    - `SupportsAbs`
+    - `SupportsBytes`
+    - `SupportsComplex`
+    - `SupportsFloat`
+    - `SupportsIndex`
+    - `SupportsInt`
+    - `SupportsRound`
+- IO
+  - class
+    - `IO`
+    - `TextIO`
+    - `BinaryIO`
+- 関数とデコレータ
+  - `cast()` --> TypeGuard を使う。
+  - `assert_type()`
+  - `assert_never()`
+  - `reveal_type()`
+  - `@dataclass_transform`
+  - `@overload`
+  - `get_overloads()`
+  - `clear_overloads()`
+  - `@final`
+    - 関数に使うとオーバーライドを禁止する。
+    - クラスに使うと継承を禁止する。
+  - `@no_type_check` --> Annotated
+  - `@no_type_check_decorator` --> Annotated
+  - `@override`
+  - ~~`@type_check_only`~~
+- イントロスペクション
+  - `get_type_hints()`
+  - `get_origin()`
+  - `get_args()`
+  - `is_typeddict()`
+  - (class) `ForwardRef`
+- 定数
+  - `TYPE_CHECKING`
+- 非推奨になったエイリアス
+  - (class) `Dict`, `List`, `Set`, `FrozenSet`, `Tuple()`, `Type()`
+  - (class) `DefaultDict`, `OrderedDict`, `ChainMap`, `Counter`, `Deque`
+  - (class) `Pattern`, `Match`, `Text`
+  - (class) `AbstractSet`, `ByteString`, `Collection`, `Container`, `ItemsView`, `KeysView`, `Mapping`, `MappingView`, `MutableMapping`, `MutableSequence`, `MutableSet`, `Sequence`, `ValuesView`
+  - (class) `Coroutine`, `AsyncGenerator`, `AsyncIterable`, `AsyncIterator`, `Awaitable`
+  - (class) `Iterable`, `Iterator`, `Callable`, `Generator`, `Hashable`, `Reversible`, `Sized`
+  - (class) `ContextManager`, `AsyncContextManager`
+
+---
+
+- ellipsis
+
+# Python ランタイムサービス
+
+## `dataclasses`
+
+- `@dataclass`デコレータ
+  - フィールドを初期化する`__init__()`を追加する。引数には型アノテーションが付く
+    - フィールドに初期化子がついているならデフォルト引数にする
+  - `__repr__()`, `__eq__()`も追加する
+  - `__lt__()`, `__le__()`, `__gt__()`, `__ge__()`も追加できる（要オプション）
+  - `__hash__()`も可
+  - `frozen`オプションで読み取り専用にする
+  - `kw_only`オプションで`__init__()`のすべての引数をキーワード専用にする
+- `field()`
+  - フィールドをカスタマイズする
+- `Field`オブジェクト
+  - `field()`の返すオブジェクト
+- `fields()`
+  - 渡したデータクラスまたはデータクラスオブジェクトの各フィールドオブジェクトのタプル
+- `asdict()`
+  - データクラスオブジェクトを辞書に変換する
+- `astuple()`
+  - データクラスオブジェクトをタプルに変換する
+- `make_dataclass()`
+  - データクラスを動的に作成する
+- `replace()`
+  - データクラスオブジェクトの指定したフィールドを置き換えたデータクラスオブジェクトを返す
+- `is_dataclass()`
+  - オブジェクトがデータクラスまたはデータクラスオブジェクトなら True
+- `__post_init__()`
+  - データクラス内で定義されていると、フィールドの初期化が行われた後に呼ばれる。
