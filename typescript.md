@@ -1,31 +1,29 @@
 # プリミティブ型
+
 ```ts
 const num: number = 123;
 ```
+
 - `boolean`, `number`, `string`, `null`, `undefined`, `symbol`, `bigint`
 - リテラル型
   - ユニオン型と組み合わせることが多い
   ```ts
-  const isTrue: true = true
-  const num: 123 = 123
-  const str: "foo" = "foo"
+  const isTrue: true = true;
+  const num: 123 = 123;
+  const str: "foo" = "foo";
   ```
 - `any`型
   - 何にでも代入できる
-  - `noImplicitAny`オプションで暗黙のanyを規制できる
+  - `noImplicitAny`オプションで暗黙の any を規制できる
 - `unknown`型
   - 何にも代入できない
 - タプル型
   ```ts
   const list: [number, string, boolean];
   ```
-- ユニオン型
-  ```ts
-  let numberOrUndefined: number | undefined;
-  ```
-  - 判別可能なユニオン型
 
 # 関数の型
+
 ```ts
 // アロー関数を使う構文
 type Ftype1 = (num: number, …) => number;
@@ -34,10 +32,11 @@ type Ftype2 = {
     (num: number, …): number;
 };
 ```
+
 - 関数に対して`typeof`を使うと関数の型が得られる。
-    ```ts
-    type t1 = typeof f1;
-    ```
+  ```ts
+  type t1 = typeof f1;
+  ```
 - `void`型
   - 戻り値がない関数の戻り値に使う
 - `never`型
@@ -49,6 +48,7 @@ type Ftype2 = {
   ```
 
 ## オーバーロード
+
 ```ts
 // 関数シグネチャ部分
 function hello(person: string): void; // シグネチャ1
@@ -62,10 +62,12 @@ function hello(person: string | string[]): void {
   }
 }
 ```
-- シグネチャを列挙し、本体を1つだけ書く
+
+- シグネチャを列挙し、本体を 1 つだけ書く
 - シグネチャは具体度が高い順に書く
 
 # 配列の型
+
 ```ts
 // []
 let array: number[];
@@ -73,9 +75,11 @@ let array: number[];
 // Array<>
 let array: Array<number>;
 ```
+
 - 挙動の違いはない
 
 # オブジェクトの型
+
 ```ts
 let box: { width: number; height: number };
 let calc: {
@@ -84,82 +88,121 @@ let calc: {
     sum2(x: number, y: number) => number;  // 関数構文
 }
 ```
+
 - プロパティ区切りは`,`でもよい
 - オブジェクトのプロパティは`readonly`にできる
-    ```ts
-    let obj: { readonly foo: number };
-    ```
+  ```ts
+  let obj: { readonly foo: number };
+  ```
 - オプションプロパティ `?`
-    - そのプロパティを持たないオブジェクトも受け付ける
-    ```ts
-    let size: { width?: number };
-    ```
-- インデックス型
-  - プロパティ名を指定せず型だけ指定する
-  - `string`, `number`, `symbol`のみ可
-    ```ts
-    let obj: {
-        [K: string]: number;
-    }
-    ```
+  - そのプロパティを持たないオブジェクトも受け付ける
+  ```ts
+  let size: { width?: number };
+  ```
 - インターセクション型 `&`
   - オブジェクトの交差型
   ```ts
-  type a = { x: number; y: number};
+  type a = { x: number; y: number };
   type b = { z: number };
-  type c = a & b;  // { x: number, y: number, z: number }
+  type c = a & b; // { x: number, y: number, z: number }
   ```
-- constアサーション
+- インデックス型
+  - プロパティ名を指定せず、キーの型だけ指定する
+  - `string`, `number`, `symbol`のみ可
+    ```ts
+    let obj: {
+      [K: string]: number;
+    };
+    ```
+  - キーの型が string の場合、keyof は `string | number` を返す
+- Mapped Types
+  - キーの型が柔軟になったインデックス型
+    ```ts
+    type SystemSupportLanguage = "en" | "fr" | "it" | "es";
+    type Butterfly = {
+      [key in SystemSupportLanguage]: string;
+    };
+    ```
+  - インデックス型と違い、宣言されたフィールド以外のプロパティは追加できない。追加したい場合はインターセクションを使う
+- const アサーション
   - オブジェクトリテラルのプロパティを再帰的に`readonly`にする
-- `keyof`演算子
-  - あるオブジェクトに対し、それのプロパティのキーを表す型
+
+# 型の演算
+
+- 型エイリアス `type`
+  ```ts
+  type StringOrNumber = string | number;
+  ```
+- ユニオン型
+  ```ts
+  let numberOrUndefined: number | undefined;
+  ```
+- 判別可能なユニオン型
+- `typeof`型演算子
+  - 変数の型を返す
+  - 識別子のみ受け取れる。値は受け取れない
+- `keyof`型演算子
+  - あるオブジェクトに対し、それのプロパティのキーを表すユニオン型
   ```ts
   type Book = {
     title: string;
     price: number;
-  }
-  type BookKey = keyof Book;  // "title" | "price"
+  };
+  type BookKey = keyof Book; // "title" | "price"
   ```
-
-# その他
-- 型エイリアス `type`
+- インデックスアクセス型
+  - オブジェクト型に対し、指定のプロパティ名でアクセスしたときに返る型
+    ```ts
+    type A = { foo: number; bar: string };
+    type Foo = A["foo"]; // number
+    type FooBar = A[keyof A]; // number | string
+    ```
+  - 配列型に対し、それの要素のユニオン型
+    ```ts
+    type MixedArray = (string | undefined)[];
+    type T = MixedArray[number]; // string | undefined
+    ```
+  - タプル型に対し、それの要素の型
+    ```ts
+    type Tuple = [string, number];
+    type T = Tuple[0];
+    ```
+- Conditional Types (`extends`)
   ```ts
-  type StringOrNumber = string | number
+  type IsString<T> = T extends string ? true : false;
+  const a: IsString<"a"> = true;
   ```
-- 型アサーション
-  - 型情報を指定する
-  ```ts
-  const value: string | number = "***";
-  const len: number = (value as string).length;
-  ```
-- `Record<Keys, Type>`
-
+  - `infer`
 
 # ジェネリクス
+
 - `Awaited<T>`
 - `Partial<T>`
-  - オブジェクト型Tに対し、そのすべてのプロパティをオプショナルにした型
+  - オブジェクト型 T に対し、そのすべてのプロパティをオプショナルにした型
 - `Required<T>`
-  - オブジェクト型Tに対し、そのすべてのプロパティを必須にした型
+  - オブジェクト型 T に対し、そのすべてのプロパティを必須にした型
 - `Readonly<T>`
-  - オブジェクト型Tに対し、そのすべてのプロパティをreadonlyにした型
+  - オブジェクト型 T に対し、そのすべてのプロパティを readonly にした型
 - `Record<K,T>`
+  - キーの型が K で値の型が T であるインデックス型
 - `Pick<T,K>`
+  - オブジェクト型 T から、キー K だけを抜き出した型
 - `Omit<T,K>`
+  - オブジェクト型 T から、キー K を取り除いた型
 - `Exclude<U,E>`
-  - ユニオン型Uの型のうち、型Eにも属する型をすべて除外した型
+  - ユニオン型 U の型のうち、型 E にも属する型をすべて除外した型
 - `Extract<T,U>`
-  - 型Tの中の型のうち、ユニオン型Uにも属する型をすべて取り出した型
+  - 型 T の中の型のうち、ユニオン型 U にも属する型をすべて取り出した型
 - `NonNullable<T>`
-  - Tからnull, undefinedを取り除いた型
+  - T から null, undefined を取り除いた型
 - `Parameters<T>`
-  - 関数型Tに対し、その引数からなるタプル型
+  - 関数型 T に対し、その引数からなるタプル型
 - `ConstructorParameters<T>`
-  - クラス型Tに対し、そのコンストラクターの引数からなるタプル型
+  - クラス型 T に対し、そのコンストラクターの引数からなるタプル型
 - `ReturnType<T>`
-  - 関数型Tに対し、その戻り値の型
+  - 関数型 T に対し、その戻り値の型
 - `InstanceType<T>`
-  - Tのコンストラクタが返す型
+  - T のコンストラクタが返す型
 - `NoInfer<T>`
   - 型推論を防ぐ
 - `ThisParameterType<T>`
@@ -170,17 +213,33 @@ let calc: {
   - `Lowercase<T>`
   - `Capitalize<T>`
   - `Uncapitalize<T>`
+- 型引数の制約 (`extends`)
+  ```ts
+  function f1<T extends P>(args) {…}
+  ```
+- ユニオン分配
+  - T がユニオン型 `X | Y` である場合、 `Generics<T>` は `Generics<X> | Generics<Y>`に等しい
+  - 分配したくない場合は型変数を `[]` で囲む
 
 # インターフェース
+
 ```ts
 interface I1 {
-    f1(): void;
+  f1(): void;
 }
 ```
 
+# その他
 
+- 型アサーション
+  - 型情報を指定する
+    ```ts
+    const value: string | number = "***";
+    const len: number = (value as string).length;
+    ```
 
-# 
-#### コンパイルオプション
-#### 構造的部分型
-#### `tsconfig.json`
+## コンパイルオプション
+
+## 構造的部分型
+
+## `tsconfig.json`
