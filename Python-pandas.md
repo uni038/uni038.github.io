@@ -47,31 +47,81 @@
 
 ## `s[ s > 0 ]`
 
+# General Function
+## Data Manipulations
+|||
+|-|-|
+|`melt`||
+|`pivot`||
+|`pivot_table`||
+|`crosstab`||
+|`cut`||
+|`qcut`||
+|`merge`||
+|`merge_ordered`||
+|`merge_asof`||
+|`concat`|seriesやdataframeを結合する。内部結合・外部結合も可|
+|`get_dummies`||
+|`from_dummies`||
+|`factorize`||
+|`unique`||
+|`lreshape`||
+|`wide_to_long`||
+
+## Top-level Missing Data
+|||
+|-|-|
+|`isna`||
+|`isnull`||
+|`notna`||
+|`notnull`||
+
+## top-level dealing with data
+|||
+|-|-|
+|`to_numeric`||
+|`to_datetime`||
+|`date_range`||
+|`bdate_range`||
+|`period_range`||
+|`timedelta_range`||
+|`infer_freq`||
+|`interval_range`||
+
+## Other
+|||
+|-|-|
+|`eval`||
+|`tseries.api.guess_datetime_format`||
+|`util.hash_array`||
+|`util.hash_pandas_object`||
+|`api.interchange.from_dataframe`||
+
 # 属性
 ## Attributes
-|Index|Series|DataFrame||
-|-|-|-|-|
-|-|`index`|`index`|インデックス|
-|-|-|`axes`|軸のリスト|
-|-|-|`columns`|列ラベル|
-|`values`|`values`|`values`|値|
-|-|`array`|-|値の保存されたExtensionArray|
-|`dtype`|`dtype`|-|データ型|
-|-|`dtypes`|`dtypes`|データ型|
-|`shape`|`shape`|`shape`|形|
-|`nbytes`|`nbytes`|-|バイト数|
-|`ndim`|`ndim`|`ndim`|次元数|
-|`size`|`size`|`size`|要素数|
-|`T`|`T`|-|行列反転|
-|`memory_usage()`|`memory_usage()`|`memory_usage()`|メモリ使用量|
-|`hasnans`|`hasnans`|-|NaNがあるかどうか|
-|`empty`|`empty`|`empty`|空であるかどうか|
-|`name`|`name`|-|名前|
-|`names`|-|-||
-|-|`flags`|-||
-|-|`set_flags()`|`set_flags()`||
-|-|-|`info()`||
-|-|-|`select_dtypes()`||
+|||Index|Series|DataFrame|
+|-|-|-|-|-|
+|`index`|**インデックス**|-|o|o|
+|`axes`|軸のリスト|-|-|o|
+|`columns`|列ラベル|-|-|o|
+|`values`|値|o|o|o|
+|`array`|値の保存されたExtensionArray|-|o|-|
+|`dtype`|データ型|o|o|-|
+|`dtypes`|データ型|-|o|o|
+|`shape`|形|o|o|o|
+|`nbytes`|バイト数|o|o|-|
+|`ndim`|次元数|o|o|o|
+|`size`|要素数|o|o|o|
+|`T`|行列反転|o|o|-|
+|`memory_usage()`|メモリ使用量|o|o|o|
+|`hasnans`|NaNがあるかどうか|o|o|-|
+|`empty`|空であるかどうか|o|o|o|
+|`name`|名前|o|o|-|
+|`names`||o|-|-|
+|`flags`||-|o|-|
+|`set_flags()`||-|o|o|
+|`info()`||-|-|o|
+|`select_dtypes()`||-|-|o|
 
 - Indexのみ
   - is_monotonic_increasing
