@@ -57,9 +57,14 @@
   - [`zipapp`](#zipapp)
 - [Python ランタイムサービス](#python-ランタイムサービス)
   - [`sys`](#sys)
+    - [パス](#パス)
+    - [その他](#その他)
+  - [`sysconfig`](#sysconfig)
   - [`dataclasses`](#dataclasses)
   - [`contextlib`](#contextlib)
   - [`abc`](#abc)
+- [モジュールのインポート](#モジュールのインポート)
+  - [`importlib`](#importlib)
 - [Windows](#windows)
   - [`winreg`](#winreg)
 
@@ -772,6 +777,75 @@ v3.12.4
 ## `multiprocessing`
 
 ## `subprocess`
+- `run()` (function)
+  - コンストラクタ
+    - `args` コマンド。文字列または引数のシーケンス
+    - `*`
+    - `stdin`, `stdout`, `stdout`
+    - `input`
+      - 子プロセスの標準入力に渡す入力。
+    - `capture_output`
+      - stdoutとstderrをパイプする。両方を単一のストリームにしたいときは`stdout=PIPE, stderr=STDOUT`とする
+    - `timeout` タイムアウト秒数
+    - `check`
+      - 子プロセスが非ゼロで終了した場合 CalledProcessError を投げる
+    - `encoding`, `errors`, `text`
+      - Popenと同じ
+    - `env`
+      - Popenと同じ
+- `CompletedProccess` (class)
+  - `args`
+  - `returncode`
+  - `stdout`, `stderr`
+  - `check_returncode()`
+- 定数等
+  - ``
+- `Popen` (class)
+  - コンストラクタ
+    - `args`
+      - 実行するもの。シーケンス、文字列、path-like。
+    - `bufsize`
+      - パイプを使用するときのバッファーサイズ
+    - `executable`　？
+    - `stdin`, `stdout`, `stderr`
+      - 標準入出力
+      - None、PIPE、DEVNULL、ファイルディスクリプタ、ファイルオブジェクトが可
+    - `preexec_fn` (POSIXのみ)
+      - 子プロセスが生成された後、実行される前に子プロセス内で呼ばれるcallable。
+    - `close_fds`
+      - 0,1,2以外のファイルディスクリプタを、子プロセスが実行される前に閉じる
+    - `shell`
+      - シェルを使用する
+    - `cwd`
+      - 子プロセスの作業ディレクトリ
+    - `env`
+      - 子プロセスの環境変数
+    - `universal_newlines` textと同じ
+    - `startupinfo`
+    - `creationflags`
+    - `restore_signals` (POSIXのみ)
+    - `start_new_session`
+    - `pass_fds` (POSIXのみ)
+    - `*`
+    - `group`
+    - `extra_groups`
+    - `user`
+    - `umask`
+    - `encoding` 標準入出力のエンコーディング
+    - `errors` 標準エラーのエンコーディング？
+    - `text` 標準IOをテキストモードで開く？
+    - `pipesize` 標準入出力のパイプサイズ (Linuxのみ)
+    - `process_group`
+  - `poll()`
+  - `wait()`
+  - `communicate()`
+  - `send_signal()`
+  - `kill()`
+  - `args`
+  - `stdin`, `stdout`, `stderr`
+  - `pid`
+  - `returncode`
+  - Popenはコンテキストマネージャになれる。
 
 # 非同期
 
@@ -949,21 +1023,123 @@ v3.12.4
 # Python ランタイムサービス
 
 ## `sys`
+### パス
+||||
+|-|-|-|
+|`base_exec_prefix`|ベース|
+|`base_prefix`|ベース|
+|`exec_prefix`|仮想環境の場合は仮想環境を指す|
+|`prefix`|プラットフォーム依存なPythonファイルがインストールされたサイト固有ディレクトリプレフィックス。仮想環境の場合は仮想環境を指す|
 
-- `argv` 引数
-- `executable` python インタプリタの実行ファイルのパス
-- `exit()` SystemExit 例外を発生させインタプリタを終了する
-- `getfilesystemencoding()` システムのエンコーディング
-- `getsizeof()` オブジェクトのバイト数を返す
-- `implementation` python インタプリタの実装に関する情報
-- `modules` ロード済みのモジュール
-- `path` モジュールの検索パス
-- `stdin` 標準入力
-- `stdout` 標準出力
-- `stderr` 標準エラー出力
-- `thread_info`
-- `version`
-- `version_info`
+
+### その他
+||||
+|-|-|-|
+|`abiflags`||
+|`addaudithook`||
+|`argv`|argv[0]がスクリプトの名前|orig_argv
+|`audit`||
+|`byteorder`|プラットフォームのバイトオーダー|
+|`builtin_module_names`|インタプリタコンパイル時に組み込まれているすべてのモジュール名|
+|`call_tracing`||
+|`copyright`|インタプリタの著作権表示|
+|`_clear_type_cache`||
+|`_current_frames`||
+|`_current_exceptions`||
+|`breakpointhook`|`breakpoint()`から呼ばれる|
+|`_debugmallocstats`||
+|`dllhandle`||
+|`displayhook`||
+|`dont_write_bytecode`|モジュールインポート時にpycファイルを生成しない|
+|`_emscripten_info`||
+|`pycache_prefix`|キャッシュ生成場所の指定|
+|`excepthook`||
+|`__breakpointhook__`||
+|`__displayhook__`||
+|`__excepthook__`||
+|`__unraiseablehook__`||
+|`exception`||
+|`exc_info`||
+|`executable`|pythonインタプリタの実行ファイルのパス|
+|`exit`|SystemExit例外を発生させ、インタプリタを終了する|
+|`flags`||
+|`float_info`|float型に関する情報|
+|`float_repr_style`|`repr()`のfloat型に対するふるまい|
+|`getallocatedblocks`||
+|`getunicodeinternedsize`||
+|`getandroidapilevel`||
+|`getdefaultencoding`||
+|`getdlopenflags`||
+|`getfilesystemencoding`|ファイルシステムのエンコーディング|
+|`getfilesystemencodeerrors`||
+|`get_int_max_str_digits`||
+|`getrefcount`|objectの参照数|
+|`getrecursionlimit`|最大再帰数|
+|`getsizeof`|オブジェクトのバイト数を返す|
+|`getswitchinterval`|インタプリタのスレッド切り替え間隔|
+|`_getframe`||
+|`_getframemodulename`||
+|`getprofile`||setprofile
+|`gettrace`||gettrace
+|`getwindowsversion`|実行中のWindowsバージョン|
+|`get_asyncgen_hooks`||
+|`get_coroutine_origin_tracking_depth`||
+|`hash_info`|ハッシュ実装のパラメータ|
+|`hexversion`|pythonバージョンの単精度整数|
+|`implementation`|pythonインタプリタの実装に関する情報|
+|`int_info`|整数の内部表現に関する情報|
+|`__interactivehook__`||
+|`intern`||
+|`is_finalizing`||
+|`last_exc`||
+|`last_type`||
+|`last_value`||
+|`last_traceback`||
+|`maxsize`||
+|`maxunicode`|Unicodeコードポイントの最大値|
+|`meta_path`||
+|`modules`|ロード済みのモジュールの辞書|
+|`orig_argv`|Python実行ファイルに渡されたオリジナルのコマンドライン引数|
+|`path`|モジュールの検索パスのリスト|
+|`path_hooks`||
+|`path_importer_cache`||
+|`platform`|プラットフォームを表す文字列|
+|`platlibdir`||
+|`ps1`|インタプリタの1次プロンプト|
+|`ps2`|インタプリタの2次プロンプト|
+|`setdlopenflags`||
+|`set_int_max_str_digits`||
+|`setprofile`||
+|`setrecursionlimit`||
+|`setswitchinterval`||
+|`settrace`||
+|`set_asyncgen_hooks`||
+|`set_coroutine_origin_tracking_depth`||
+|`active_stack_trampoline`||
+|`deactivate_stack_trampoline`||
+|`is_stack_trampoline_active`||
+|`_enablelegacywindowsfsencoding`||
+|`stdin`|標準入力（ファイルオブジェクト）|
+|`stdout`|標準出力|
+|`stderr`|標準エラー出力|
+|`__stdin__`||
+|`__stdout__`||
+|`__stderr__`||
+|`stdlib_module_names`||
+|`thread_info`|スレッドの実装に関する情報|
+|`tracebacklimit`|捕捉されない例外が発生したときのトレースバックの最大レベル数。|
+|`unraisablehook`||
+|`version`|インタプリタのバージョン番号のほか、ビルド番号や使用コンパイラなどの情報|
+|`api_version`|インタプリタのC APIバージョン|
+|`version_info`|バージョン番号のタプル|
+|`warnoptions`||
+|`winver`||
+|`monitoring`||
+|`_xoptions`||
+
+
+## `sysconfig`
+
 
 ## `dataclasses`
 
@@ -1001,6 +1177,10 @@ v3.12.4
 - (class) `ABC`
 - (class) `ABCMeta`
 - `@abstracctmethod`
+
+# モジュールのインポート
+## `importlib`
+
 
 # Windows
 
