@@ -799,7 +799,9 @@ v3.12.4
   - `stdout`, `stderr`
   - `check_returncode()`
 - 定数等
-  - ``
+  - `DEVNULL`
+  - `PIPE`
+  - `STDOUT`
 - `Popen` (class)
   - コンストラクタ
     - `args`
@@ -836,15 +838,21 @@ v3.12.4
     - `text` 標準IOをテキストモードで開く？
     - `pipesize` 標準入出力のパイプサイズ (Linuxのみ)
     - `process_group`
-  - `poll()`
-  - `wait()`
+  - `poll()` 終了しているかどうか調べる
+  - `wait()` 終了するまで待つ
   - `communicate()`
-  - `send_signal()`
+    - プロセスとやりとりする。stdinに入力を送り、stdout, stderrを読む
+    - stdin, stdout, stderrを PIPE で生成しておく必要がある
+  - `send_signal()` プロセスにシグナルを送る
+  - `terminate()`
+    - 停止する。POSIXではSIGTERMを送り、WindowsではWin32APIのTerminateProcess()を呼ぶ。
   - `kill()`
-  - `args`
+    - プロセスをキルする。POSIXではSIGKILLを送り、Windowsではterminate()と同じ。
+  - `args` 渡されたargs
   - `stdin`, `stdout`, `stderr`
-  - `pid`
+  - `pid` PID
   - `returncode`
+    - 終了コード。初期値はNoneで、poll, wait, communicateを呼んだときにプロセスが終了していればセットされる
   - Popenはコンテキストマネージャになれる。
 
 # 非同期
@@ -1026,10 +1034,10 @@ v3.12.4
 ### パス
 ||||
 |-|-|-|
-|`base_exec_prefix`|ベース|
-|`base_prefix`|ベース|
-|`exec_prefix`|仮想環境の場合は仮想環境を指す|
-|`prefix`|プラットフォーム依存なPythonファイルがインストールされたサイト固有ディレクトリプレフィックス。仮想環境の場合は仮想環境を指す|
+|`base_exec_prefix`|プラットフォーム依存なPythonファイルがインストールされているディレクトリパス。|
+|`base_prefix`|プラットフォーム依存でないPythonファイルがインストールされたディレクトリパス。|
+|`exec_prefix`|プラットフォーム依存なPythonファイルがインストールされているディレクトリパス。仮想環境の場合は仮想環境を指す|
+|`prefix`|プラットフォーム依存でないPythonファイルがインストールされたディレクトリパス。仮想環境の場合は仮想環境を指す|
 
 
 ### その他
