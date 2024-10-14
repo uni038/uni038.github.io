@@ -561,6 +561,14 @@ v3.12.4
   - `ItemsView` (MappingView, Set)
   - `KeysView` (MappingView, Set)
 
+関係
+- Container
+- Hashable
+- Iterable
+  - Iterator
+s  - Reversible
+
+
 ## `copy`
 
 - `copy()` シャローコピー
