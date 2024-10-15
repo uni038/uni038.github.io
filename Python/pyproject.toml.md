@@ -36,23 +36,27 @@
   - dependencies
     - プロジェクトの依存関係である、文字列の配列。
   - optional-dependencies
+    - オプショナルな依存関係。`名前=[値, …]`の形式。
+    - `プロジェクト名[名前]`の形式で参照する。
   - requires-python
     - このプロジェクトの要求するPythonバージョン
 - スクリプト系
   - scripts
     - プロジェクトにスクリプトを作成する。
-      ```
+      ```toml
       [project.scripts]
       spam-cli = "spam:main_cli"
       ```
       - `spam-cli`コマンドを実行することで、`from spam import main_cli; main_cli()`が走るようになる
   - gui-scripts
-    - GUIから起動したときにターミナルを表示したくないコマンド
+    - WindowsでGUIから起動したときにターミナルを表示したくないコマンド
+    - コマンドラインから実行すると非同期実行する
+    - Windows以外では不要
   - entry-points
 - その他
   - dynamic
     - 動的なキーとして指定するキー。つまり、目的を持って未指定にしておき、ツールによって設定するキー。
 
 ## `[tool]`
-
+各ツール固有の設定
 
