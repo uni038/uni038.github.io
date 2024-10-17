@@ -8,7 +8,15 @@
 ## インストール
 - Linux/Win/Mac
 - CLI/GUI/BIN
-- pip, pipx, homebrew, conda
+- pip
+  ```sh
+  pip install hatch
+  ```
+- pipx
+  ```sh
+  pipx install hatch
+  ```
+- homebrew, conda
 
 
 ## Introduction
@@ -56,6 +64,7 @@ hatch run python -c "import sys; print(sys.executable)"
 
 ### dependency
 project.dependencies (pyproject.toml)
+- ビルド用のツールはしばしばそれ自体がpythonパッケージだったりするので、ビルドにはビルド用の環境を作成するのが通例。
 
 ### matrix
 
