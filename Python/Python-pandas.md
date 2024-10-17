@@ -287,10 +287,56 @@
 |`view`|||
 
 ## Combining / Comparing / Joining / Merging
-||Series|DataFrame|
-|-|-|-|
-|`compare`|||
-|`update`|||
+|||
+|-|-|
+|`assign`||
+|`compare`||
+|`join`||
+|`merge`||
+|`update`||
+
+### `join`
+```py
+join(other, on=None, how='left', lsuffix='', rsuffix='', sort=False, validate=None)
+```
+- 2つのDataFrameの行どうしを結合して1つのDataFrameにする
+  - `on`を指定するとその列をキーとして結合する。デフォルトではインデックスをキーとする
+- `how`
+  - `left` 左DataFrameに存在するキーのみ使う
+  - `right` 右DataFrameに存在するキーのみ使う
+  - `outer` OR
+  - `inner` AND
+  - `cross` 直積
+- 戻り値：結合後のDataFrame
+
+### `merge`
+```py
+merge(right, how='inner', on=None,
+  left_on=None, right_on=None, left_index=False, right_index=False,
+  sort=False, suffixes=('_x', '_y'), copy=None, indicator=False, validate=None)
+```
+- あるDataFrameのある行に対し、別のDataFrameから同じキーを持つ行を探して結合する。同じキーを持つ行が複数ある場合の挙動は`how`による。
+- `how`
+  - `left` （デフォルト）
+  - `right`
+  - `outer`
+  - `inner`
+  - `cross`
+- `on`, `left_on`, `right_on`
+- `left_index`, `right_index`
+- 戻り値：マージ後のDataFrame
+
+### `update`
+```py
+update(other, join='left', overwrite=True, filter_func=None, errors='ignore')
+```
+- 左DataFrameの各セルを、右DataFrameの対応するセル（行インデックスと列ラベルが両方一致するセル）の値で置き換える
+- `join`
+  - `left`のみ対応
+- `overwrite`
+  - True: 元の値を置き換える（デフォルト）
+  - False: NAであるセルのみ置き換える
+- 戻り値：なし
 
 ## Time Series Related
 あとで
