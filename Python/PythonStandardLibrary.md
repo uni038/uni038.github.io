@@ -509,64 +509,59 @@ v3.12.4
   - 型注釈がつけられないので`typing.NamedTuple`のほうが良い。
 
 ## `collections.abc`
-
 コンテナの基底抽象クラス
+```
+Iterable  ─┬─── Iterator  ─────── Generator
+           ├─── Reversible ───┐
+           └─┐                │
+Container ───┤                │
+Sized     ─┬─┴─ Collection ─┬─┴── Sequence ─┬──── MutableSequence
+           │                │               └──── ByteString
+           │                ├──── Mapping ─────── MutableMapping
+           │                ├──── Set     ───┬─── MutableSet
+           │                └──┐             │
+           └─── MappingView ─┬─┴─ ValuesView │
+                             │               ├─┐
+                             ├───────────────╂─┴─ ItemsView
+                             │               └─┐
+                             └─────────────────┴─ KeysView
+Hashable
+Callable
+Awaitable ────── Coroutine
+AsyncIterable ── AsyncIterator ── AsyncGenerator
+Buffer
+```
 
-- 1 次クラス
-  - `Container`
-    - 抽象：`__contains__`
-  - `Hashable`
-    - 抽象：`__hash__`
-  - `Iterable`
-    - 抽象：`__iter__`
-  - `Sized`
-    - 抽象：`__len__`
-  - `Callable`
-    - 抽象：`__call__`
-  - `Awaitable`
-    - 抽象：`__await__`
-  - `AsyncIterable`
-    - 抽象：`__aiter__`
-  - `Buffer`
-    - 抽象：`__buffer__`
-- 2 次クラス
-  - `Iterator` (Iterable)
-    - mixin：`__iter__`
-    - 抽象：`__next__`
-  - `Reversible` (Iterable)
-    - 抽象：`__reversed__`
-  - `Collection` (Sized, Iterable, Container)
-    - 抽象：`__contains__`, `__iter__`, `__len__`
-  - `MappingView` (Sized)
-  - `Coroutine` (Awaitable)
-  - `AsyncIterator` (AsyncIterable)
-- 3 次クラス
-  - `Generator` (Iterator)
-    - mixin：`close`, `__iter__`, `__next__`
-    - 抽象：`send`, `throw`
-  - `Sequence` (Reversible, Collection)
-    - mixin：`__contains__`, `__iter__`, `__reversed__`, `index`, `count`
-    - 抽象：`__getitem__`, `__len__`
-  - `Set` (Collection)
-  - `Mapping` (Collection)
-  - `ValuesView` (MappingView, Collection)
-  - `AsyncGenerator` (AsyncIterator)
-- 4 次クラス
-  - `MutableSequence` (Sequence)
-    - mixin：Sequence から継承したメソッドと`append`, `clear`, `reverse`, `extend`, `pop`, `remove`, `__iadd__`
-    - 抽象：`__getitem__`, `__setitem__`, `__delitem__`, `__len__`, `insert`
-  - ~~`ByteString` (Sequence)~~ 3.14 で削除
-  - `MutableSet` (Set)
-  - `MutableMapping` (Mapping)
-  - `ItemsView` (MappingView, Set)
-  - `KeysView` (MappingView, Set)
+||抽象|
+|-|-|
+|Iterable|`__iter__`|
+|Container|`__contains__`|
+|Sized|`__len__`|
 
-関係
-- Container
-- Hashable
-- Iterable
-  - Iterator
-s  - Reversible
+||mixin|抽象|
+|-|-|-|
+|Iterator|`__iter__`|`__next__`|
+|Reversible|---|`__reversed__`|
+|Collection|---|`__contains__`, `__iter__`, `__len__`|
+|MappingView|`__len__`|---|
+
+||mixin|抽象|
+|-|-|-|
+|Generator|`close`, `__iter__`, `__next__`|`send`, `throw`|
+|Sequence|`__contains__`, `__iter__`, `__reversed__`, `index`, `count`|`__getitem__`, `__len__`|
+|Mapping|`__contains__`, `keys`, `items`, `values`, `get`, `__eq__`, `__ne__`|`__getitem__`, `__iter__`, `__len__`|
+|Set|`__le__`, `__lt__`, `__eq__`, `__ne__`, `__gt__`, `__ge__`, `__and__`, `__or__`, `__sub__`, `__xor__`, `isdisjoint`|`__contains__`, `__iter__`, `__len__`|
+|ValuesView|`__contains__`, `__iter__`|---|
+
+||mixin|抽象|
+|-|-|-|
+|MutableSequence|Sequence から継承したメソッドと、 `append`, `clear`, `reverse`, `extend`, `pop`, `remove`, `__iadd__`|`__getitem__`, `__setitem__`, `__delitem__`, `__len__`, `insert`|
+|~~ByteString~~|~~Sequence から継承したメソッド~~|~~`__getitem__`, `__len__`~~|
+|MutableMapping|Mapping から継承したメソッドと、 `pop`, `popitem`, `clear`, `update`, `setdefault`|`__getitem__`, `__setitem__`, `__delitem__`, `__iter__`, `__len__`|
+|MutableSet|Set から継承したメソッドと、 `clear`, `pop`, `remove`, `__ior__`, `__iand__`, `__ixor__`, `__isub__`|`__contains__`, `__iter__`, `__len__`, `add`, `discard`|
+|ItemsView|`__contains__`, `__iter__`|---|
+|KeysView|`__contains__`, `__iter__`|---|
+
 
 
 ## `copy`
