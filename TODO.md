@@ -1,3 +1,19 @@
+- Prettier
+  - JS, TS, CSS, HTML, JSON, Markdown, YAML
+- Markdown All in One
+- .editorconfig
+  - VSCode
+- [python]
+  - Ruff
+    - python用
+    - pyproject.toml / ruff.toml
+  - uv
+  - pip requirement.txt
+  - pip requirement.in
+  - pytest / tox
+  - pydantic
+
+.
 - javascript
   - 関数のバインド
   - console
