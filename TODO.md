@@ -1,12 +1,10 @@
 - [python]
   - Ruff
-    - pyproject.toml / ruff.toml
     - CLI
-  - uv
-  - pytest / tox
+    - pyproject.toml / ruff.toml
   - pydantic
-- Markdown All in One
-  - VSCode
+  - pytest / tox
+  - uv
 
 .
 

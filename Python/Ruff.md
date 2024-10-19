@@ -1,0 +1,5 @@
+# Ruff
+
+## CLI
+
+- with editorconfig?
