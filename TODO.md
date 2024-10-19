@@ -2,6 +2,7 @@
   - Ruff
     - python用
     - pyproject.toml / ruff.toml
+    - CLI
   - uv
   - pip-tools (requirement.in)
   - pytest / tox

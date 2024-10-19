@@ -181,8 +181,9 @@ hatch build
   - pythonインストールの管理
   - `hatch python find`
   - `hatch python install`
+    - `--private`
   - `hatch python remove`
-  - `hatch python show`
+  - `hatch python show` : 利用可能なpythonディストリビューションを表示する
   - `hatch python update`
 - `hatch self`
   - Hatch自体の管理

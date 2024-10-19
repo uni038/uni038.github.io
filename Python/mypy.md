@@ -9,9 +9,41 @@
 > Mypy Type Checker - Visual Studio Marketplace \
 > https://marketplace.visualstudio.com/items?itemName=ms-python.mypy-type-checker
 
+## コマンドライン
+> The mypy command line - mypy 1.12.0 documentation
+> https://mypy.readthedocs.io/en/stable/command_line.html
+
 ```sh
 mypy program.py
 ```
+
+- `-m MODULE`, `--module MODULE`
+  - チェックするモジュール
+- `-p PACKAGE`, `--package PACKAGE`
+  - チェックするパッケージ
+- `--exclude`
+  -  .
+- `--config-file CONFIG_FILE`
+  -  .
+
+## mypy.ini
+> https://mypy.readthedocs.io/en/stable/config_file.html
+
+コマンドラインで `--config-file` を指定しなかった場合は以下の順で探索する
+1. `./mypy.ini`
+2. `./.mypy.ini`
+3. `./pyproject.toml`
+4. `./setup.cfg`
+5. `$XDG_CONFIG_HOME/mypy/config`
+6. `~/.config/mypy/config`
+7. `~/.mypy.ini`
+
+- `[mypy]` セクションが必須。
+- `[mypy-PATTERN1,PATTERN2,…]`
+  - PATTERN はモジュール名。 (`foo.bar`, `foo.bar.*` など)
+  - その名前のモジュールに適用される。
+  - `foo.*` は `foo` とそのサブモジュールに適用。
+  - `foo.*.bar` のように途中に使用可能。このとき `foo.bar` にもマッチする。
 
 ## type hints
 - 型推論があるため、単純な型であればいちいち型ヒントをつける必要はない
@@ -56,37 +88,6 @@ mypy program.py
 - 前方参照は通常できないが `__future__.annotations` をインポートするとできるようになる
 
 
-## コマンドライン
-> The mypy command line - mypy 1.12.0 documentation
-> https://mypy.readthedocs.io/en/stable/command_line.html
-
-- `-m MODULE`, `--module MODULE`
-  - チェックするモジュール
-- `-p PACKAGE`, `--package PACKAGE`
-  - チェックするパッケージ
-- `--exclude`
-  -  .
-- `--config-file CONFIG_FILE`
-  -  .
-
-## mypy.ini
-> https://mypy.readthedocs.io/en/stable/config_file.html
-
-コマンドラインで `--config-file` を指定しなかった場合は以下の順で探索する
-1. `./mypy.ini`
-2. `./.mypy.ini`
-3. `./pyproject.toml`
-4. `./setup.cfg`
-5. `$XDG_CONFIG_HOME/mypy/config`
-6. `~/.config/mypy/config`
-7. `~/.mypy.ini`
-
-- `[mypy]` セクションが必須。
-- `[mypy-PATTERN1,PATTERN2,…]`
-  - PATTERN はモジュール名。 (`foo.bar`, `foo.bar.*` など)
-  - その名前のモジュールに適用される。
-  - `foo.*` は `foo` とそのサブモジュールに適用。
-  - `foo.*.bar` のように途中に使用可能。このとき `foo.bar` にもマッチする。
 
 ## mypy type checker (VSCode)
 
