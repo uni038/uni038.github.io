@@ -41,6 +41,8 @@ pip install [options] <archive url/path> …
 - `(-r | --requirement) <file>`
   - requirementsファイルからインストールする
   - requirementsファイルには`pip install`に渡す引数を行ごとに記述する
+- `-c <file>`
+  - 制約ファイル。
 - `(-e | --editable) <path/url>`
   - ローカルのプロジェクトやVCSのURLから、編集可能モードでインストールする。
 - `--src <dir>`
