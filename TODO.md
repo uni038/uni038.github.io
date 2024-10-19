@@ -1,19 +1,15 @@
 - [python]
   - Ruff
-    - python用
     - pyproject.toml / ruff.toml
     - CLI
   - uv
-  - pip-tools (requirement.in)
   - pytest / tox
   - pydantic
-- Prettier
-  - JS, TS, CSS, HTML, JSON, Markdown, YAML
 - Markdown All in One
-- .editorconfig
   - VSCode
 
 .
+
 - javascript
   - 関数のバインド
   - console
