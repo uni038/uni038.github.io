@@ -1,17 +1,16 @@
-- Prettier
-  - JS, TS, CSS, HTML, JSON, Markdown, YAML
-- Markdown All in One
-- .editorconfig
-  - VSCode
 - [python]
   - Ruff
     - python用
     - pyproject.toml / ruff.toml
   - uv
-  - pip requirement.txt
-  - pip requirement.in
+  - pip-tools (requirement.in)
   - pytest / tox
   - pydantic
+- Prettier
+  - JS, TS, CSS, HTML, JSON, Markdown, YAML
+- Markdown All in One
+- .editorconfig
+  - VSCode
 
 .
 - javascript

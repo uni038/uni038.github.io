@@ -5,6 +5,9 @@
 > pyproject.toml の仕様 - Python Packaging User Guide
 > https://packaging.python.org/ja/latest/specifications/pyproject-toml/
 
+> Configuring project metadata - Hatch
+> https://hatch.pypa.io/latest/config/metadata/
+
 ## `[build-system]`
 - `requires`
   - ビルドに必要な依存関係。
