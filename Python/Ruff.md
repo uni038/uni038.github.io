@@ -12,15 +12,12 @@ pip install ruff
 - `ruff check <file>`
 - `ruff format`
 
-## configuration
-> https://docs.astral.sh/ruff/configuration/
 
-pyproject.toml or ruff.toml
+## Setting (pyproject.toml / ruff.toml)
+> https://docs.astral.sh/ruff/settings/
+- tool.ruff
+- tool.ruff.format
+- tool.ruff.lint
 
-- pyproject.toml
-  - `[tool.ruff.lint]`
-<!-- TODO: -->
+## Rule
 
-## CLI
-
-- with editorconfig?
