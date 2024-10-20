@@ -5,6 +5,8 @@
   - pydantic
   - pytest / tox
   - uv
+  - jupyter notebook
+- Docker
 
 .
 
