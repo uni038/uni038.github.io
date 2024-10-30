@@ -31,6 +31,8 @@
   - [`io`](#io)
   - [`argparse`](#argparse)
   - [`logging`](#logging)
+  - [`logging.config`](#loggingconfig)
+  - [`logging.handlers`](#logginghandlers)
 - [並列](#並列)
   - [`threading`](#threading)
   - [`multiprocessing`](#multiprocessing)
@@ -1011,6 +1013,110 @@ Buffer
 ## `argparse`
 
 ## `logging`
+- ロガー `Logger`
+  - name : 名前
+  - level : 閾値。閾値より深刻度の低いメッセージは無視する
+  - parent : 親ロガー
+  - propagate : Trueなら上位ロガーにもイベントを伝播する
+  - handlers : ハンドラ
+  - disabled
+  - setLevel()
+  - isEnabledFor()
+  - getEffectiveLevel()
+  - getChild()
+  - getChildren()
+  - debug(), info(), warning(), error(), critical(), exception()
+  - log()
+  - addFilter()
+  - removeFilter()
+  - filter()
+  - addHandler()
+  - removeHandler()
+  - findCaller()
+  - handle()
+  - makeRecord()
+  - hasHandlers()
+- ログレベル
+  |名前|数値||
+  |-|-|-|
+  |NOTSET|0|未定義|
+  |DEBUG|10|デバッグ|
+  |INFO|20|情報|
+  |WARNING|30|警告|
+  |ERROR|40|エラー|
+  |CRITICAL|50|重大なエラー|
+- ハンドラ `Handler`
+  - `__init__()`
+  - createLock()
+  - acquire()
+  - release()
+  - setLevel()
+  - setFormatter()
+  - addFilter()
+  - removeFilter()
+  - filter()
+  - flush()
+  - close()
+  - handle()
+  - handleError()
+  - format()
+  - emit()
+- フォーマッタ `Formatter`
+  - format()
+  - formatTime()
+  - formatException()
+  - formatStack()
+- `BufferingFormatter`
+- フィルタ `Filter`
+  - filter()
+- `LogRecord`
+  - getMessage()
+    |属性の名前|フォーマット||
+    |-|-|-|
+    |args|-||
+    |asctime|`%(asctime)s`|生成された時刻|
+    |created|`%(created)f`|生成された時刻|
+    |exc_info|-|sys.exc_info風の例外タプル|
+    |filename?|`%(filename)s`|pathnameのファイル名部分|
+    |funcName|`%(funcName)s`|ロギングを呼び出した関数|
+    |levelname|`%(levelname)s`|ログレベル|
+    |levelno|`%(levelno)s`|ログレベル|
+    |lineno|`%(lineno)d`|ロギングが呼び出された行番号|
+    |message|`%(message)s`|ログメッセージ (`msg % args`)|
+    |module|`%(module)s`|モジュール（filenameの名前部分|
+    |msecs|`%(msecs)d`|生成された時刻のミリ秒部分|
+    |msg|-|元のロギング呼び出しで渡されたフォーマット文字列|
+    |name|`%(name)s`|ロガーの名前|
+    |pathname|`%(pathname)s`|ロギングが呼び出されたファイルの完全なパス|
+    |process|`%(process)d`|プロセスID|
+    |processName|`%(processName)s`|プロセス名|
+    |relativeCreated|`%(relativeCreated)d`|loggingモジュールが読み込まれた時刻に対する、ログが生成された時刻のミリ秒|
+    |stack_info|-||スタックフレーム
+    |thread|`%(thread)d`|スレッドID|
+    |threadName|`%(threadName)s`|スレッド名|
+    |taskName|`%(taskName)s`|`asyncio.Task`名|
+- モジュールレベル関数
+  - getLogger(name)
+  - getLoggerClass()
+  - getLogRecordFactory()
+  - debug(msg), info(msg), warning(msg), error(msg), critical(msg), exception(msg)
+  - log(level, msg)
+  - disable(level)
+  - addLevelName(level, levelName)
+  - getLevelNamesMapping()
+  - getLevelName(level)
+  - getHandlerByName(name)
+  - getHandlerNames()
+  - makeLogRecord(attrdict)
+  - basicConfig()
+    - デフォルトのFormatterを持つStreamHandlerを生成してルートロガーに追加する。
+  - shutdown()
+  - setLoggerClass(klass)
+  - setLogRecordFactory(factory)
+
+## `logging.config`
+
+## `logging.handlers`
 
 # 並列
 
