@@ -1,8 +1,5 @@
 - [python]
-  - Ruff
-    - CLI
-    - pyproject.toml / ruff.toml
-  - pydantic
+  - build
   - pytest / tox
   - uv
   - jupyter notebook
