@@ -1,0 +1,218 @@
+# `os`
+
+- `name`
+  - ( -> `sys.platform` )
+- `ctermid()`
+- `environ`
+- `environb`
+- `chdir()`
+- `fchdir()`
+- `getcwd()`
+- `fsencode()`
+- `fsdecode()`
+- `fspath`
+- (Class) `PathLike`
+- `getenv()`
+- `getenvb()`
+- `get_exec_path()`
+- `getegid()`
+- `geteuid()`
+- `getgid()`
+- `getgrouplist()`
+- `getgroups()`
+- `getlogin()`
+- `getpgid()`
+- `getpgrp()`
+- `getpid()`
+- `getppid()`
+- `getpriority()`
+- `getresuid()`
+- `getresgid()`
+- `getuid()`
+- `initgroups()`
+- `putenv()`
+- `setegid()`
+- `seteuid()`
+- `setgid()`
+- `setgroups()`
+- `setns()`
+- `setpgrp()`
+- `setpgid()`
+- `setpriority()`
+- `setregid()`
+- `setresgid()`
+- `setresuid()`
+- `setreuid()`
+- `getsid()`
+- `setsid()`
+- `setuid()`
+- `strerror()`
+- `supports_bytes_environ`
+- `umask()`
+- `uname()`
+- `unsetenv()`
+- `unshare()`
+- `fdopen()`
+- `close()`
+- `closerange()`
+- `copy_file_range()`
+- `device_encoding()`
+- `dup()`
+- `dup2()`
+- `fchmod()`
+- `fchown()`
+- `fdatasync()`
+- `fpathconf()`
+- `fstat()`
+- `fstatvfs()`
+- `fsync()`
+- `ftruncate()`
+- `get_blocking()`
+- `isatty()`
+- `lockf()`
+- `login_tty()`
+- `lseek()`
+- `open()`
+- `openpty()`
+- `pipe()`
+- `pipe2()`
+- `posix_fallocate()`
+- `posix_fadvise()`
+- `pread()`
+- `preadv()`
+- `pwrite()`
+- `pwritev()`
+- `read()`
+- `sendfile()`
+- `set_blocking()`
+- `splice()`
+- `readv()`
+- `tcgetpgrp()`
+- `tcsetpgrp()`
+- `ttyname()`
+- `write()`
+- `writev()`
+- `get_terminal_size()`
+- `get_inheritable()`
+- `set_inheritable()`
+- `get_handle_inheritable()`
+- `set_handle_inheritable()`
+- `access()`
+- `chdir()`
+- `chflags()`
+- `chmod()`
+- `chown()`
+- `chroot()`
+- `fchdir()`
+- `getcwd()`
+- `getcwdb()`
+- `lchflags()`
+- `lchmod()`
+- `lchown()`
+- `link()`
+- `listdir()`
+- `listdrives()`
+- `listmounts()`
+- `listvolumes()`
+- `lstat()`
+- `mkdir()`
+- `makedirs()`
+- `mkfifo()`
+- `mknod()`
+- `major()`
+- `minor()`
+- `makedev()`
+- `pathconf()`
+- `pathconf_names`
+- `readlink()`
+- `remove()`
+- `removedirs()`
+- `rename()`
+- `renames()`
+- `replace()`
+- `rmdir()`
+- `scandir()`
+- `stat()`
+- `statvfs()`
+- `supports_dir_fd`
+- `supports_effective_ids`
+- `supports_fd`
+- `supports_follow_symlinks`
+- `symlink()`
+- `sync()`
+- `truncate()`
+- `unlink()`
+- `utime()`
+- `walk()`
+- `fwalk()`
+- `memfd_create()`
+- `eventfd()`
+- `eventfd_read()`
+- `eventfd_write()`
+- Linux拡張属性
+  - `getxattr()`
+  - `listxattr()`
+  - `removexattr()`
+  - `setxattr()`
+- プロセス管理
+  - `abort()`
+  - `add_dll_directory()`
+  - `execl()`, ...
+  - `fork()`
+  - `forkpty()`
+  - `kill()`
+  - `killpg()`
+  - `nice()`
+  - `pidfd_open()`
+  - `plock()`
+  - `popen()`
+  - `posix_spawn()`
+  - `posix_spawnp()`
+  - `register_at_fork()`
+  - `spawnl()`, ...
+  - `startfile()`
+  - `system()`
+  - `times()`
+  - `wait()`
+  - `waitid()`
+  - `waitpid()`
+  - `wait3()`
+  - `wait4()`
+  - `waitstatus_to_exitcode()`
+  - `WCOREDUMP()`
+  - `WIFCONTINUED()`
+  - `WIFSTOPPED()`
+  - `WIFSIGNALED()`
+  - `WIFEXITED()`
+  - `WEXITSTATUS()`
+  - `WSTOPSIG()`
+  - `WTERMSIG()`
+- スケジューラー
+  - `sched_get_priority_min()`
+  - `sched_get_priority_max()`
+  - `sched_setscheduler()`
+  - `sched_getscheduler()`
+  - `sched_setparam()`
+  - `sched_getparam()`
+  - `sched_rr_get_interval()`
+  - `sched_yield()`
+  - `sched_setaffinity()`
+  - `sched_getaffinity()`
+- 雑多なシステム情報
+  - `confstr()`
+  - `confstr_names`
+  - `cpu_count()`
+  - `getloadavg()`
+  - `sysconf()`
+  - `sysconf_names`
+  - `curdir`
+  - `pardir`
+  - `sep`
+  - `altsep`
+  - `extsep`
+  - `pathsep`
+  - `defpath`
+  - `linesep`
+  - `devnull`
+  - `getrandom()`
+  - `urandom()`

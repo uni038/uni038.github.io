@@ -1,0 +1,39 @@
+# `os.path`
+- パスの取得
+  - `os.path.abspath()` 絶対パス
+  - `os.path.basename()` ファイル名部分
+  - `os.path.commonpath()` 複数のパスの共通部分
+  - ~~`os.path.commonprefix()`~~
+  - `os.path.dirname()` ディレクトリ名
+  - `os.path.realpath()` シンボリックリンクを解決したパス
+  - `os.path.relpath()` 指定したディレクトリから見た相対パス
+- パス操作
+  - `os.path.expanduser()` パス先頭の`~`をユーザホームに置き換える
+  - `os.path.expandvars()` パス内の環境変数を展開する
+  - `os.path.join()` パスを結合する
+  - `os.path.normname()` (Win) パスの大文字を小文字に、`/`を`\`に正規化する
+  - `os.path.normpath()` パスを正規化する
+  - `os.path.split()` パスを構成要素の末尾とそれ以外に分割する
+    - 末尾が`/`を含むことはない。パスが`/`で終わる場合、末尾は空文字列になる
+    - 末尾を除いた部分の最後の`/`は取り除かれる
+  - `os.path.splitdrive()` パスをドライブレターとそれ以外に分割する。UNC パスの場合はホストネームとそれ以外に分割する。
+  - `os.path.splitroot()` パスをドライブ、ルートパス、それ以外に分割する
+  - `os.path.splitext()` パスを拡張子とそれ以外に分割する
+- パスの判定
+  - `os.path.exists()` パスが存在しているかどうか
+  - `os.path.lexists()` exists と同じだが、壊れたシンボリックリンクも True
+  - `os.path.isabs()` パスが絶対パスかどうか
+  - `os.path.isfile()` パスがファイルかどうか
+  - `os.path.isdir()` パスがディレクトリかどうか
+  - `os.path.isjunction()` (NTFS) パスがジャンクションかどうか
+  - `os.path.islink()` パスがシンボリックリンクかどうか
+  - `os.path.ismount()` パスがマウントポイントかどうか
+  - `os.path.isdevdrive()` パスが WindowsDevDrive かどうか
+  - `os.path.samefile()` 2 つのパスが同じものを参照しているかどうか
+  - `os.path.sameopenfile()` 2 つのファイルディスクリプタが同じファイルを参照しているかどうか
+  - `os.path.samestat()` 2 つの stat が同じファイルを参照しているかどうか（→`os.stat()`）
+- 情報
+  - `os.path.getatime()` 最終アクセス時刻
+  - `os.path.getmtime()` 最終更新時刻
+  - `os.path.getctime()` (Unix) 最後にメタデータが変更された時刻 (Win) 作成時刻
+  - `os.path.getsize()` ファイルサイズ

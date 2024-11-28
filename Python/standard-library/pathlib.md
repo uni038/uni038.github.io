@@ -1,0 +1,74 @@
+# `pathlib`
+パスの抽象化
+
+- 純粋パス `PurePath`
+  - 演算子`/`を使って子パスを作成できる
+  - `PurePath.parts` パスの各セグメントのタプル
+  - `PurePath.drive`
+  - `PurePath.root`
+  - `PurePath.anchor` ドライブ＋ルート
+  - `PurePath.parent` 1 つ上の上位パス
+  - `PurePath.parents[index]` index 個上の上位パス
+  - `PurePath.name` 末尾
+  - `PurePath.suffix` 拡張子
+  - `PurePath.suffixex` 拡張子のリスト。拡張子が多重になっている場合用
+  - `PurePath.stem` 末尾から拡張子を取り除いた部分
+  - `PurePath.as_posix()` `\`を`/`に置換したパス
+  - `PurePath.as_uri()` 先頭に`file://`を追加した URI 形式
+  - `PurePath.is_absolute()`
+  - ~~`PurePath.is_relative_to()`~~
+  - `PurePath.is_reserved()`
+  - `PurePath.joinpath()`
+  - `PurePath.match()` このパスが指定した glob にマッチするかどうか
+    - glob が相対の場合、パスを下から遡ってマッチする。
+    - glob が絶対の場合、パスは絶対パスでなければマッチしない。
+  - `PurePath.relative_to()` 指定パスからこのパスへの相対パス
+  - `PurePath.with_name()` 末尾を指定した名前に変更したパス
+  - `PurePath.with_stem()` stem を変更したパス
+  - `PurePath.with_suffix()` suffix を変更したパス
+  - `PurePath.with_segments()` parent や relative_to()が呼び出されたときに実行する関数
+- 具象パス `Path`
+  - classmethod `Path.home()` ホームディレクトリの具象パス
+  - classmethod `Path.cwd()` カレントディレクトリの具象パス
+  - `Path.absolute()` 絶対パスの具象パス。リンクは解決しない
+  - `Path.resolve()` 絶対パスの具象パス。リンクを解決する
+  - `Path.readlink()` リンクの参照先の具象パス
+  - ファイルタイプとステータス
+    - `Path.stat()`
+    - `Path.lstat()`
+    - `Path.exists()`
+    - `Path.is_file()`
+    - `Path.is_dir()`
+    - `Path.is_symlink()`
+    - `Path.is_junction()`
+    - `Path.is_mount()`
+    - `Path.is_socket()`
+    - `Path.is_fifo()`
+    - `Path.is_block_device()`
+    - `Path.is_char_device()`
+    - `Path.samefile()`
+  - 読み書き
+    - `Path.open()`
+    - `Path.read_text()`
+    - `Path.read_bytes()`
+    - `Path.write_text()`
+    - `Path.write_bytes()`
+  - ディレクトリ
+    - `Path.iterdir()` ディレクトリの内容の具象パスを yield する
+    - `Path.glob()` このパスを基準に、指定した glob に一致するすべてのファイルを yield する
+    - `Path.rglob()` glob() と同じだが、指定した glob の先頭に`**/`を追加する
+    - `Path.walk()` 下位のディレクトリ名とその中のディレクトリ・ファイルのタプルを再帰的に yield する
+  - ファイル・ディレクトリの作成
+    - `Path.touch()`
+    - `Path.mkdir()`
+    - `Path.symlink_to()`
+    - `Path.hardlink_to()`
+  - `Path.rename()`
+  - `Path.replace()`
+  - `Path.unlink()`
+  - `Path.rmdir()`
+  - パーミッション
+    - `Path.owner()`
+    - `Path.group()`
+    - `Path.chmod()`
+    - `Path.lchmod()`

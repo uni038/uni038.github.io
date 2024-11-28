@@ -1,0 +1,78 @@
+## `subprocess`
+- `run()` (function)
+  - コンストラクタ
+    - `args` コマンド。文字列または引数のシーケンス
+    - `*`
+    - `stdin`, `stdout`, `stdout`
+    - `input`
+      - 子プロセスの標準入力に渡す入力。
+    - `capture_output`
+      - stdoutとstderrをパイプする。両方を単一のストリームにしたいときは`stdout=PIPE, stderr=STDOUT`とする
+    - `timeout` タイムアウト秒数
+    - `check`
+      - 子プロセスが非ゼロで終了した場合 CalledProcessError を投げる
+    - `encoding`, `errors`, `text`
+      - Popenと同じ
+    - `env`
+      - Popenと同じ
+- `CompletedProccess` (class)
+  - `args`
+  - `returncode`
+  - `stdout`, `stderr`
+  - `check_returncode()`
+- 定数等
+  - `DEVNULL`
+  - `PIPE`
+  - `STDOUT`
+- `Popen` (class)
+  - コンストラクタ
+    - `args`
+      - 実行するもの。シーケンス、文字列、path-like。
+    - `bufsize`
+      - パイプを使用するときのバッファーサイズ
+    - `executable`　？
+    - `stdin`, `stdout`, `stderr`
+      - 標準入出力
+      - None、PIPE、DEVNULL、ファイルディスクリプタ、ファイルオブジェクトが可
+    - `preexec_fn` (POSIXのみ)
+      - 子プロセスが生成された後、実行される前に子プロセス内で呼ばれるcallable。
+    - `close_fds`
+      - 0,1,2以外のファイルディスクリプタを、子プロセスが実行される前に閉じる
+    - `shell`
+      - シェルを使用する
+    - `cwd`
+      - 子プロセスの作業ディレクトリ
+    - `env`
+      - 子プロセスの環境変数
+    - `universal_newlines` textと同じ
+    - `startupinfo`
+    - `creationflags`
+    - `restore_signals` (POSIXのみ)
+    - `start_new_session`
+    - `pass_fds` (POSIXのみ)
+    - `*`
+    - `group`
+    - `extra_groups`
+    - `user`
+    - `umask`
+    - `encoding` 標準入出力のエンコーディング
+    - `errors` 標準エラーのエンコーディング？
+    - `text` 標準IOをテキストモードで開く？
+    - `pipesize` 標準入出力のパイプサイズ (Linuxのみ)
+    - `process_group`
+  - `poll()` 終了しているかどうか調べる
+  - `wait()` 終了するまで待つ
+  - `communicate()`
+    - プロセスとやりとりする。stdinに入力を送り、stdout, stderrを読む
+    - stdin, stdout, stderrを PIPE で生成しておく必要がある
+  - `send_signal()` プロセスにシグナルを送る
+  - `terminate()`
+    - 停止する。POSIXではSIGTERMを送り、WindowsではWin32APIのTerminateProcess()を呼ぶ。
+  - `kill()`
+    - プロセスをキルする。POSIXではSIGKILLを送り、Windowsではterminate()と同じ。
+  - `args` 渡されたargs
+  - `stdin`, `stdout`, `stderr`
+  - `pid` PID
+  - `returncode`
+    - 終了コード。初期値はNoneで、poll, wait, communicateを呼んだときにプロセスが終了していればセットされる
+  - Popenはコンテキストマネージャになれる。
