@@ -76,6 +76,7 @@
   - [`npm prefix` -](#npm-prefix--)
   - [`npm root` -](#npm-root--)
   - [`npm sbom`](#npm-sbom)
+- [pnpm](#pnpm)
 
 
 
@@ -211,3 +212,5 @@ v10.8.0
 ## `npm root` - 
 ## `npm sbom`
 
+# pnpm
+> https://zenn.dev/cloud_ace/articles/articlejs-package-manager-pnpm

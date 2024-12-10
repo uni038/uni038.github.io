@@ -1,3 +1,6 @@
+# typescript
+> https://www.typescriptlang.org/docs/
+
 # プリミティブ型
 
 ```ts
@@ -174,7 +177,7 @@ let calc: {
   ```
   - `infer`
 
-# ジェネリクス
+# ジェネリクス（ユーティリティタイプ）
 
 - `Awaited<T>`
 - `Partial<T>`
@@ -218,7 +221,7 @@ let calc: {
   function f1<T extends P>(args) {…}
   ```
 - ユニオン分配
-  - T がユニオン型 `X | Y` である場合、 `Generics<T>` は `Generics<X> | Generics<Y>`に等しい
+  - T がユニオン型 `X | Y` である場合、 `Generics<T>` は `Generics<X> | Generics<Y>`として解釈される
   - 分配したくない場合は型変数を `[]` で囲む
 
 # インターフェース
@@ -228,6 +231,8 @@ interface I1 {
   f1(): void;
 }
 ```
+- 使わない。typeでよい
+> https://zenn.dev/luvmini511/articles/6c6f69481c2d17
 
 # その他
 
