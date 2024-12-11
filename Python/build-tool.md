@@ -6,7 +6,9 @@
 |setuptools (setup.py)|2013-08||
 |pip-tools|2015-07|pip-compile + pip-sync|
 |pyenv|~2017|pythonのバージョン管理|
+|pyenv-win||pyenvのWindows版|
 |Flit|2018-04|PyPIへのアップロード|
+|pipenv|~2018-6|仮想環境管理、パッケージ管理|
 |poetry|2019-12|依存管理とパッケージング|
 |pipx|2022-01|javascriptでいうnpx|
 |Hatch|2022-04|ビルド/環境管理/テスト/バージョン管理/...|

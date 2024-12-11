@@ -232,7 +232,9 @@ interface I1 {
 }
 ```
 - 使わない。typeでよい
+- interfaceは拡張ができてしまう
 > https://zenn.dev/luvmini511/articles/6c6f69481c2d17
+
 
 # その他
 
