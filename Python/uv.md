@@ -21,6 +21,12 @@ uv run -
 ```
 - プロジェクト内で実行すると、プロジェクトの環境が作成・更新されて実行される
 - プロジェクト外で実行すると、カレントまたは親ディレクトリに仮想環境があればその環境で実行する。そうでないなら、発見したインタプリタの環境で実行する
+- `--python | -p` : 実行環境に使用するインタプリタ。発見された環境が要求されたインタプリタを満足するならその環境を使う。
+- `--python-preference` : インタプリタの探索戦略。  
+  - `only-managed`
+  - `managed` (default)
+  - `system`
+  - `only-system`
 
 ### `uv init` プロジェクトの初期化
 ```sh
@@ -97,7 +103,7 @@ pythonバージョンの指定形式
 - CPython, PyPy, GraalPyをサポート
 
 ### `uv pip` pythonパッケージをpipのインターフェースで管理
-- `uv pip compiile` : requirements.in を requirements.txt にコンパイル
+- `uv pip compile` : requirements.in を requirements.txt にコンパイル
     ```sh
     uv pip compile [OPTIONS] <SRC_FILE>…
     ```
@@ -123,6 +129,7 @@ pythonバージョンの指定形式
   ```
   - PATH: 作成先パス。デフォルトでは `./.venv`
   - すでに存在する場合は削除して新しく作成する
+  - `--prompt` : その環境のプロンプトのプレフィックス。
 
 ### `uv build` pythonパッケージをsdist,bdistにビルド
 
