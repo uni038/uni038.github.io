@@ -3,6 +3,8 @@
   - pytest / tox
   - uv
   - jupyter notebook
+  - traceback
+  - faulthandler
 - Docker
 
 .
@@ -14,3 +16,4 @@
   - ジェネレータ
   - WebAssembly
 - Node.js (/w npm)
+- Supabase
