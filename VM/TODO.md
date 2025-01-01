@@ -4,3 +4,4 @@
 - Podman
 - Kubernetes
 - Virtualbox
+- (Vagrant)
