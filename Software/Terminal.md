@@ -1,4 +1,6 @@
-# WezTerm
+# ターミナルエミュレータ
+## Win対応
+### WezTerm
 > https://wezfurlong.org/wezterm/index.html
 - Win, Mac, Linux
 - Rust
@@ -7,7 +9,7 @@
 - 画像表示
 - マルチプレクサ内蔵
 
-# Alacritty
+### Alacritty
 > https://alacritty.org/
 
 > https://github.com/alacritty/alacritty/blob/master/docs/features.md
@@ -18,22 +20,26 @@
 - 日本語周りに不安？→解消
 - tmuxと併用推奨
 
-# Ghostty
+## Win非対応
+### Ghostty
 > https://ghostty.org/docs/features
 - HarshiCorp製
 - Zigで書かれている
 - GPUを使用する
 - Mac, Linuxのみ
 
-# Warp
+### Warp
 - Rust
 - Mac, Linuxのみ
 
-# kitty
+### kitty
 > https://sw.kovidgoyal.net/kitty/
 Mac, Linuxのみ
 
-# iTerm2
+### iTerm2
 - Mac
 
-# urxvt
+### urxvt
+- Linux
+
+> http://malkalech.com/urxvt_terminal_emulator
