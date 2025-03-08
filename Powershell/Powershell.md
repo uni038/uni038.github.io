@@ -2,6 +2,8 @@
 - バージョン情報 `$PSVersionTable`
 - ストリクトモード `Set-PSDebug -Strict`
 
+- Windows PowershellとPowershell Coreがある
+
 
 ## 変数
 - 定義

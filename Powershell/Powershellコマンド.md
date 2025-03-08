@@ -150,8 +150,8 @@ Cmdlet|Set-Content|7.0.0.0|Microsoft.PowerShell.Management
 - `Get-Host` 現在のホストを表すオブジェクトを取得する
 - `Out-Host` 出力を表示する
 - `Read-Host`
-- `Write-Host`
-  - `Write-Output` (`echo`)
+- `Write-Host` コンソールに表示する
+  - `Write-Output` (`echo`) 標準出力ストリームに出力する
 
 
 ## *-History
