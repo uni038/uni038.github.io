@@ -1,216 +1,167 @@
-- [全般](#全般)
-  - [`npm`](#npm)
-  - [`npx`](#npx)
-  - [`npm exec` / `npm x` - ローカルまたはリモートのパッケージを実行する](#npm-exec--npm-x---ローカルまたはリモートのパッケージを実行する)
-  - [`npm doctor` - npm環境を検証する](#npm-doctor---npm環境を検証する)
-- [ローカル](#ローカル)
-  - [`npm init`](#npm-init)
-  - [`npm pkg` - package.jsonの管理](#npm-pkg---packagejsonの管理)
-  - [`npm start` - startスクリプトを実行する](#npm-start---startスクリプトを実行する)
-  - [`npm stop` - stopスクリプトを実行する](#npm-stop---stopスクリプトを実行する)
-  - [`npm test` - testスクリプトを実行する](#npm-test---testスクリプトを実行する)
-  - [`npm restart` - restartスクリプトを実行する](#npm-restart---restartスクリプトを実行する)
-  - [`npm run-script` / `npm run` - 任意のスクリプトを実行する](#npm-run-script--npm-run---任意のスクリプトを実行する)
-  - [`npm version` - バージョンを変更する](#npm-version---バージョンを変更する)
-- [レジストリ](#レジストリ)
-  - [`npm adduser`](#npm-adduser)
-  - [`npm login`](#npm-login)
-  - [`npm logout`](#npm-logout)
-  - [`npm diff` - レジストリにあるファイルとローカルのdiffを取る](#npm-diff---レジストリにあるファイルとローカルのdiffを取る)
-  - [`npm ping`](#npm-ping)
-  - [`npm hook` - レジストリフックの管理](#npm-hook---レジストリフックの管理)
-  - [`npm star`](#npm-star)
-  - [`npm unstar`](#npm-unstar)
-  - [`npm stars`](#npm-stars)
-  - [`npm search` - パッケージを探す](#npm-search---パッケージを探す)
-  - [`npm view` - レジストリの情報を見る](#npm-view---レジストリの情報を見る)
-  - [`npm profile` - レジストリでのプロフィール情報を変更する](#npm-profile---レジストリでのプロフィール情報を変更する)
-- [依存パッケージ](#依存パッケージ)
-  - [インストール / アンインストール](#インストール--アンインストール)
-    - [`npm install` - インストール](#npm-install---インストール)
-    - [`npm ci` / `npm clean-install` - クリーンインストール](#npm-ci--npm-clean-install---クリーンインストール)
-    - [`npm install-test` - インストールとテスト](#npm-install-test---インストールとテスト)
-    - [`npm install-ci-test` - クリーンインストールとテスト](#npm-install-ci-test---クリーンインストールとテスト)
-    - [`npm uninstall` - アンインストール](#npm-uninstall---アンインストール)
-    - [`npm update` - アップデート](#npm-update---アップデート)
-    - [`npm ls` / `npm list` - インストール済みのパッケージを一覧する](#npm-ls--npm-list---インストール済みのパッケージを一覧する)
-    - [`npm outdated` - outdatedになっているパッケージを確認する](#npm-outdated---outdatedになっているパッケージを確認する)
-    - [`npm prune` - 不要なパッケージを削除する](#npm-prune---不要なパッケージを削除する)
-    - [`npm edit` - インストール済みのパッケージのソースを編集する](#npm-edit---インストール済みのパッケージのソースを編集する)
-  - [依存関係](#依存関係)
-    - [`npm explain` - 依存関係の表示](#npm-explain---依存関係の表示)
-    - [`npm dedupe` - パッケージの重複を解消する](#npm-dedupe---パッケージの重複を解消する)
-    - [`npm find-dupes` - パッケージの重複を表示する](#npm-find-dupes---パッケージの重複を表示する)
-    - [`npm query` - パッケージの依存関係をセレクタで検索する](#npm-query---パッケージの依存関係をセレクタで検索する)
-  - [その他](#その他)
-    - [`npm docs` - パッケージのドキュメントをブラウザで開く](#npm-docs---パッケージのドキュメントをブラウザで開く)
-    - [`npm repo` - パッケージのリポジトリURLをブラウザで開く](#npm-repo---パッケージのリポジトリurlをブラウザで開く)
-    - [`npm link` - パッケージへのシンボリックリンクを作る](#npm-link---パッケージへのシンボリックリンクを作る)
-    - [`npm pack` - tarballを作成する](#npm-pack---tarballを作成する)
-    - [`npm rebuild` - パッケージのリビルド](#npm-rebuild---パッケージのリビルド)
-- [パッケージの公開](#パッケージの公開)
-  - [`npm publish`](#npm-publish)
-  - [`npm unpublish`](#npm-unpublish)
-  - [`npm access` - アクセスレベル](#npm-access---アクセスレベル)
-  - [`npm deprecate`](#npm-deprecate)
-  - [`npm owner`](#npm-owner)
-  - [`npm dist-tag`](#npm-dist-tag)
-  - [`npm shrinkwrap`](#npm-shrinkwrap)
-- [バグ](#バグ)
-  - [`npm bugs`](#npm-bugs)
-- [セキュリティ](#セキュリティ)
-  - [`npm audit`](#npm-audit)
-- [キャッシュ](#キャッシュ)
-  - [`npm cache`](#npm-cache)
-- [その他](#その他-1)
-  - [`npm config` -](#npm-config--)
-  - [`npm help` -](#npm-help--)
-  - [`npm help-search` -](#npm-help-search--)
-  - [`npm fund`](#npm-fund)
-  - [`npm completion` -](#npm-completion--)
-  - [`npm org`](#npm-org)
-  - [`npm whoami`](#npm-whoami)
-  - [`npm team`](#npm-team)
-  - [`npm token`](#npm-token)
-  - [`npm explore` -](#npm-explore--)
-  - [`npm prefix` -](#npm-prefix--)
-  - [`npm root` -](#npm-root--)
-  - [`npm sbom`](#npm-sbom)
-- [pnpm](#pnpm)
+# npm
+version: 11.5.2
 
-
-
-> [npm CLI | npm Docs](https://docs.npmjs.com/cli/v10/)
-
-v10.8.0
-
-# 全般
-## `npm`
-## `npx`
-**TODO**
-
-## `npm exec` / `npm x` - ローカルまたはリモートのパッケージを実行する
-**TODO**
-
-## `npm doctor` - npm環境を検証する
-- npmが正常に実行できる環境であることを確認する。
-
-
-# ローカル
-## `npm init`
-## `npm pkg` - package.jsonの管理
-**TODO**
-
-## `npm start` - startスクリプトを実行する
-## `npm stop` - stopスクリプトを実行する
-## `npm test` - testスクリプトを実行する
-## `npm restart` - restartスクリプトを実行する
-- `restart`が定義されているなら、 `prerestart` > `restart` > `postrestart` の順で実行する。
-- `restart`が定義されていないなら、以下の順で実行する。
-  - `prerestart`
-  - `prestop` > `stop` > `poststop`
-  - `prestart` > `start` > `poststart`
-  - `postrestart`
-
-## `npm run-script` / `npm run` - 任意のスクリプトを実行する
-## `npm version` - バージョンを変更する
-
-
-# レジストリ
+## `npm access`
 ## `npm adduser`
+## `npm audit`
+## `npm bugs`
+## `npm cache`
+## `npm ci`
+clean install a project
+
+## `npm completion`
+## `npm config`
+```sh
+npm config set <key>=<value> [<key>=<value> ...]
+npm config get [<key> [<key> ...]]
+npm config delete <key> [<key> ...]
+npm config list [--json]
+npm config edit
+npm config fix
+```
+- alias: c
+
+## `npm dedupe`
+## `npm deprecate`
+  - `npm undeprecate`
+## `npm diff`
+## `npm dist-tag`
+## `npm docs`
+## `npm doctor`
+## `npm edit`
+## `npm exec`
+```sh
+npm exec -- <pkg>[@<version>] [args...]
+npm exec --package=<pkg>[@<version>] -- <cmd> [args...]
+npm exec -c '<cmd> [args...]'
+npm exec --package=foo -c '<cmd> [args...]'
+```
+- alias: x
+- 
+
+## `npm explain`
+print the chain of dependencies causing a given package to be installed in the current project
+```sh
+npm explain <package-spec>
+```
+- alias: why
+
+## `npm explore`
+## `npm find-dupes`
+## `npm fund`
+## `npm help`
+## `npm help-search`
+## `npm init`
+```sh
+npm init <package-spec> (same as `npx create-<package-spec>`)
+npm init <@scope> (same as `npx <@scope>/create`)
+```
+- aliases: create, innit
+
+
+## `npm install`
+```sh
+npm install [<package-spec> ...]
+```
+- aliases: add, i, in, ins, inst, insta, instal, isnt, isnta, isntal, isntall
+
+
+- `npm uninstall`
+
+
+## `npm install-ci-test`
+npm ci & npm test
+
+## `npm install-test`
+npm install & npm test
+
+## `npm link`
 ## `npm login`
 ## `npm logout`
-## `npm diff` - レジストリにあるファイルとローカルのdiffを取る
-## `npm ping`
-## `npm hook` - レジストリフックの管理
-## `npm star`
-## `npm unstar`
-## `npm stars`
-## `npm search` - パッケージを探す
-## `npm view` - レジストリの情報を見る
-## `npm profile` - レジストリでのプロフィール情報を変更する
+## `npm ls`
+list installed packages
+```sh
+npm ls <package-spec>
+```
+alias: list
 
-
-# 依存パッケージ
-## インストール / アンインストール
-### `npm install` - インストール
-### `npm ci` / `npm clean-install` - クリーンインストール
-`./node_modules`を削除してプロジェクト全体を再インストールする
-
-### `npm install-test` - インストールとテスト
-- `npm install`して`npm test`する。
-
-### `npm install-ci-test` - クリーンインストールとテスト
-- `npm ci`して`npm test`する。
-
-### `npm uninstall` - アンインストール
-### `npm update` - アップデート
-### `npm ls` / `npm list` - インストール済みのパッケージを一覧する
-### `npm outdated` - outdatedになっているパッケージを確認する
-### `npm prune` - 不要なパッケージを削除する
-### `npm edit` - インストール済みのパッケージのソースを編集する
-
-## 依存関係
-### `npm explain` - 依存関係の表示
-指定したパッケージを現在のプロジェクトにインストールした依存関係を表示する。
-### `npm dedupe` - パッケージの重複を解消する
-- 同じパッケージのバージョン違いがインストールされている場合に解消する？
-
-### `npm find-dupes` - パッケージの重複を表示する
-- `npm dedupe --dry-run`する
-
-### `npm query` - パッケージの依存関係をセレクタで検索する
-
-
-## その他
-### `npm docs` - パッケージのドキュメントをブラウザで開く
-### `npm repo` - パッケージのリポジトリURLをブラウザで開く
-### `npm link` - パッケージへのシンボリックリンクを作る
-- ローカルにあるパッケージを、ローカルにある他のパッケージから参照できる
-
-### `npm pack` - tarballを作成する
-### `npm rebuild` - パッケージのリビルド
-- 以下を実行する。
-  - preinstall, install, postinstall, prepare
-  - バイナリをリンクする
-
-
-# パッケージの公開
-## `npm publish`
-## `npm unpublish`
-## `npm access` - アクセスレベル
-## `npm deprecate`
-## `npm owner`
-## `npm dist-tag`
-## `npm shrinkwrap`
-
-
-# バグ
-## `npm bugs`
-
-
-# セキュリティ
-## `npm audit`
-
-
-# キャッシュ
-## `npm cache`
-
-
-# その他
-## `npm config` - 
-## `npm help` - 
-## `npm help-search` - 
-## `npm fund`
-## `npm completion` - 
 ## `npm org`
-## `npm whoami`
-## `npm team`
-## `npm token`
-## `npm explore` - 
-## `npm prefix` - 
-## `npm root` - 
-## `npm sbom`
+## `npm outdated`
+## `npm owner`
+## `npm pack`
+create a tarball
+## `npm ping`
+## `npm pkg`
+manage your `package.json`
 
-# pnpm
-> https://zenn.dev/cloud_ace/articles/articlejs-package-manager-pnpm
+## `npm prefix`
+```sh
+npm prefix
+```
+Print the local prefix to standard output. This is the closest parent directory to contain a package.json file or node_modules directory, unless -g is also specified.
+
+## `npm profile`
+## `npm prune`
+## `npm publish`
+  - `npm unpublish`
+## `npm query`
+## `npm rebuild`
+## `npm repo`
+## `npm restart`
+## `npm root`
+display npm root
+```sh
+npm root
+```
+
+## `npm run`
+runs an arbitrary command from a package's `"scripts"` object
+```sh
+npm run <command> [-- <args>]
+```
+- aliases: run-script, rum, urn
+
+
+## `npm sbom`
+## `npm search`
+## `npm shrinkwrap`
+## `npm star`
+  - `npm unstar`
+## `npm stars`
+## `npm start`
+runs a predefined command specified in the "start" property of a package's "scripts" object
+```sh
+npm start [-- <args>]
+```
+
+## `npm stop`
+runs a predefined command specified in the "stop" property of a package's "scripts" object
+```sh
+npm stop [-- <args>]
+```
+
+## `npm team`
+## `npm test`
+runs a predefined command specified in the "test" property of a package's "scripts" object
+```sh
+npm test [-- <args>]
+```
+- aliases: tst, t
+
+## `npm token`
+## `npm update`
+update all the packages
+```sh
+npm update [<pkg>...]
+```
+- aliases: up, upgrade, udpate
+
+## `npm version`
+## `npm view`
+view registry info
+
+## `npm whoami`
+Display npm username
+
+## `npx`
+
