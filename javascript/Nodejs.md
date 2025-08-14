@@ -7,9 +7,61 @@ node [options] [V8 options] [script.js | -e "script" | - ] [arguments]
 ```
 
 ## CommonJS / ESModules
+### CommonJS
 https://nodejs.org/docs/latest/api/modules.html
-https://nodejs.org/docs/latest/api/esm.html
+- Node.jsのモジュール形式
+    ```js
+    // circle.js
+    const { PI } = Math;
+    exports.area = (r) => PI * r ** 2;
+    exports.circumference = (r) => 2 * PI * r;
+    ```
+    ```js
+    const circle = require('./circle.js');
+    console.log(`The area of a circle of radius 4 is ${circle.area(4)}`);
+    ```
+- `exports`自体に別のオブジェクトを割り当てることもできる
+    ```js
+    // Assigning to exports will not modify module, must use module.exports
+    module.exports = class Square {
+        constructor(width) {
+            this.width = width;
+        }
 
+        area() {
+            return this.width ** 2;
+        }
+    };
+    ```
+- デフォルトでは、Node.jsは以下のものはCommonJSとして扱う
+  - `*.cjs`
+  - 一番近い親package.jsonに `"type": "commonjs` が定義されている `*.js`
+  - `*.js`または拡張子なしのファイルで、一番近い親package.jsonに `"type"` が定義されていないか、または親package.jsonがないファイル
+    - ただし、CommonJSであっても`"type"`フィールドは明示的に定義すべき
+  - `*.mjs`, `*.cjs`, `*.json`, `*.node`, `*.js`のいずれでもないファイル
+- `require()`は常にモジュールをCommonJSとしてロードする。`import()`は常にESModuleとしてロードする
+
+### ESModules (ECMA Script Modules)
+https://nodejs.org/docs/latest/api/esm.html
+- ブラウザ環境のモジュール形式
+    ```js
+    // addTwo.mjs
+    function addTwo(num) {
+        return num + 2;
+    }
+
+    export { addTwo };
+    ```
+    ```js
+    import { addTwo } from './addTwo.mjs';
+
+    console.log(addTwo(4));
+    ```
+- ESModulesを使う
+  - `*.mjs`
+  - `"type": "module`
+  - `node --input-type="module"`
+  - 指定がない場合、ソースコードを読んでESmodulesの文法があればESmodulesでロードする
 
 
 ## ライブラリ
