@@ -90,6 +90,9 @@ version: 11.5.2
 - コマンドラインで `--foo` とすると、`foo`という設定を `true` に設定する。
 - `--` で、以降の引数をコマンドに渡す。
 
+### npm exec vs npx
+- npxではオプションを位置引数より前に書く必要があるが、npm execは `--` で区切りを明示できる
+
 
 ### `npm access` *
 ### `npm adduser` *
@@ -160,6 +163,7 @@ npm init <package-spec> (same as `npx create-<package-spec>`)
 npm init <@scope> (same as `npx <@scope>/create`)
 ```
 - aliases: create, innit
+- `npm init <package>`は`npm exec create-<package>`と同じ
 - オプション
   - `--init-author-name`
   - `--init-author-url`
