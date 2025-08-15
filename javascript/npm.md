@@ -85,8 +85,10 @@ version: 11.5.2
   - npm token  *
   - npm whoami  *
 
-
-
+### コマンドのconfig指定
+- コマンドラインで `--foo bar` とすると、`foo`というconfigを`bar`に設定する。
+- コマンドラインで `--foo` とすると、`foo`という設定を `true` に設定する。
+- `--` で、以降の引数をコマンドに渡す。
 
 
 ### `npm access` *
@@ -221,7 +223,10 @@ npm install [<package-spec> ...]
   - `npm install <githubname>/<githubrepo>[#<commit-ish>]`
   - `npm install github:<githubname>/<githubrepo>[#<commit-ish>]`
     - https://github.com/githubname/githubrepoからクローンしてインストールする。
-
+- コマンドラインフラグ
+  - `save` (true) : dependenciesに追加する
+  - `save-exact` (false): dependenciesに正確なバージョンで追加する
+  - `global` (false) : グローバルにインストールする
 
 - `npm uninstall`
 

@@ -2,16 +2,64 @@
 - npmのパッケージ定義ファイル
 - [package.json | npm Docs](https://docs.npmjs.com/cli/v11/configuring-npm/package-json)
 
-- name
-- version
-- description
-- license
-- author
-- type
-  - ESModulesにする場合は`"module"`にする
-- main
+- `"name"`
+- `"version"`
+- `"description"`
+- `"keywords"`
+- `"homepage"`
+- `"bugs"`
+- `"license"`
+- `"author"`, `"contributors"`
+- `"funding"`
+- `"files"`
+  - パッケージに含めるべきファイルの名前のパターン
+  - 文法は .gitignore と同じ
+- `"exports"`
+  - multiple entrypoint
+- `"main"`
   - エントリポイント。
+- `"browser"`
+  - クライアントサイドで使うモジュールの場合、mainの代わりに使う
+- `"bin"`
+  - パッケージに含まれる実行ファイルとそのパス
+- `"man"`
+- `"directories"`
+- `"directories.bin"`
+- `"directories.man"`
+- `"repository"`
+  - リポジトリのURL
+- `"scripts"`
+  - スクリプト
+  - `"pre<script-name>"`, `"post<script-name>"`を定義しておくと、`npm run <script-name>`の実行前後に自動的に実行される。
+  - 予約されているスクリプト
+    - `prepare`
+    - `prepublishOnly`
+    - `prepack`
+    - `postpack`
+    - `dependencies`
+      - node_modulesに変更があったときに実行される
+- `"config"`
+- `"dependencies"`
+  - 依存関係。パッケージ名とそのバージョンの辞書
+- `"devDependencies"`
+- `"peerDependencies"`
+- `"peerDependenciesMeta"`
+- `"bundleDependencies"`
+- `"optionalDependencies"`
+- `"overrides"`
+- `"engines"`
+  - nodeやnpmのバージョン
+- `"os"`
+- `"cpu"`
+- `"libc"`
+- `"devEngines"`
+- `"private"`
+  - trueの場合、publishを禁止する
+- `"publishConfig"`
+  - publishに関する設定
+- `"workspaces"`
 
-## scripts
-[scripts | npm Docs](https://docs.npmjs.com/cli/v11/using-npm/scripts)
+## `"type"`
+- ESModulesにする場合は`"module"`にする
+
 
