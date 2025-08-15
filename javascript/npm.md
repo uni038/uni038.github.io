@@ -20,6 +20,7 @@ version: 11.5.2
   - npm init
   - npm dist-tag : 配布用タグの編集
   - npm pkg : package.jsonの管理
+  - npm version : パッケージのバージョンを上げる
 - インストール関連のコマンド
   - npm ci : クリーンインストール
   - npm edit  * : インストールされているパッケージをエディタで開く
@@ -37,19 +38,20 @@ version: 11.5.2
   - ~~npm access~~  *
   - npm adduser  *
   - npm deprecate / npm undeprecate  * : レジストリのパッケージを更新しdeprecatedにする
-  - npm diff : レジストリにあるパッケージのdiffを取る
   - npm login  *
   - npm logout  *
   - npm ping  *
   - npm profile  *
   - npm publish / npm unpublish
-  - npm search  *
   - npm star / npm unstar / npm stars  *
-  - npm view : レジストリからパッケージの情報を取得して表示
 - パッケージ関連のコマンド
   - npm bugs : パッケージのバグトラッカーをブラウザで開く
+  - npm diff : パッケージのdiffを取る
   - npm docs : パッケージのドキュメントをブラウザで開く
+  - npm pack : パッケージのtarballを作成
   - npm repo : パッケージのリポジトリをブラウザで開く
+  - npm search  *
+  - npm view : レジストリからパッケージの情報を取得して表示
 - 依存関係関連のコマンド
   - npm audit : 依存パッケージのセキュリティ監査
   - npm dedupe
@@ -59,7 +61,7 @@ version: 11.5.2
   - npm query
   - npm shrinkwrap  *
 - 実行
-  - npm exec
+  - npm exec : パッケージからコマンドを実行する
   - npm restart
   - npm run
   - npm start
@@ -76,13 +78,11 @@ version: 11.5.2
   - npm help-search  *
   - npm org  *
   - npm owner : パッケージのオーナーを変更する
-  - npm pack : パッケージのtarballを作成
   - npm prefix  * : 現在のpackage.jsonの親ディレクトリのパスを取得
   - npm root  * : 現在のnode_modulesのパスを取得
   - npm sbom
   - npm team  *
   - npm token  *
-  - npm version : パッケージのバージョンを上げる
   - npm whoami  *
 
 
@@ -150,12 +150,31 @@ npm explain <package-spec>
 ### `npm fund`
 ### `npm help` *
 ### `npm help-search` *
+
 ### `npm init`
+package.jsonの作成
 ```sh
 npm init <package-spec> (same as `npx create-<package-spec>`)
 npm init <@scope> (same as `npx <@scope>/create`)
 ```
 - aliases: create, innit
+- オプション
+  - `--init-author-name`
+  - `--init-author-url`
+  - `--init-license`
+  - `--init-module`
+  - `--init-type`
+    - package.jsonのtypeの値。デフォルトはcommonjs
+  - `--init-version`
+  - `--init-private`
+    - package.jsonのprivate。デフォルトはfalse
+  - `--yes`
+  - `--force`
+  - `--scope`
+  - `--workspace`
+  - `--workspaces`
+  - `--workspaces-update`
+  - `--include-workspace-root`
 
 
 ### `npm install` / `npm uninstall`
