@@ -39,6 +39,7 @@
     - `dependencies`
       - node_modulesに変更があったときに実行される
 - `"config"`
+  - コンフィグ
 - `"dependencies"`
   - 依存関係。パッケージ名とそのバージョンの辞書
 - `"devDependencies"`

@@ -1,15 +1,6 @@
 # npm config (.npmrc)
 https://docs.npmjs.com/cli/v11/configuring-npm/npmrc
 
-```sh
-npm config set <key>=<value> [<key>=<value> ...]
-npm config get [<key> [<key> ...]]
-npm config delete <key> [<key> ...]
-npm config list [--json]
-npm config edit
-npm config fix
-```
-alias: c
 
 ## npmrc file
 - 場所

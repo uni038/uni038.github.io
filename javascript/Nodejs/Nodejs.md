@@ -6,7 +6,7 @@
 node [options] [V8 options] [script.js | -e "script" | - ] [arguments]
 ```
 
-## CommonJS / ESModules
+## モジュール形式
 ### CommonJS
 https://nodejs.org/docs/latest/api/modules.html
 - Node.jsのモジュール形式
