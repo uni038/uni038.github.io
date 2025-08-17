@@ -44,6 +44,8 @@
   - [クラス](#クラス)
   - [IO](#io)
   - [非同期処理](#非同期処理)
+    - [Promise](#promise)
+    - [async / await](#async--await)
   - [モジュール (ECMAScript Module (ESModule))](#モジュール-ecmascript-module-esmodule)
     - [エクスポート](#エクスポート)
     - [インポート](#インポート)
@@ -516,7 +518,7 @@ function* myGeneratorFunction() {}
 const myGeneratorFunction2 = function* () {}
 const myGeneratorFunction3 = function* someFunc() {}
 ```
-- TODO
+- TODO:
 
 ### 非同期関数
 ```js
@@ -682,7 +684,31 @@ const f1 = () => {}
 - コンソール
 
 ## 非同期処理
-- プロミス
+### Promise
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise
+- pending/fulfilled/rejectedのいずれかの状態を取る
+- `try()`
+  ```js
+  // fulfilledのコールバックとrejectedのコールバックを取る
+  then(onFulfilled)
+  then(onFulfilled, onRejected)
+  ```
+- `catch()`, `finally()`
+- try, catch finallyは戻り値としては新しいPromiseを作成して返す。
+- 静的メソッド
+  - `Promise(executor)` : コンストラクタ。executorは`(resolveFunc, rejectFunc) => {}`
+  - `Promise.all()` : すべてfulfillされた時にfulfillされる。
+  - `Promise.allSettled()` : すべてsettleされた(fulfillかrejectされた)時にfulfillされる。
+  - `Promise.any()` : いずれかがfulfillされた時にfulfillされる。
+  - `Promise.race()` : いずれかがsettleされたときに同じ結果にsettleされる。
+  - `Promise.resolve(value)` : 与えられた値で解決されたPromiseを返す
+  - `Promise.reject(reason)` : 与えられた理由でrejectされたPromiseを返す
+- catchの後にthenすると、エラーがcatchされたあとにthenが実行される
+- catchがエラーをキャッチする範囲を制限したい場合は入れ子にする
+- `setTimeout()`
+
+### async / await
+
 
 ## モジュール (ECMAScript Module (ESModule))
 > JavaScript モジュール - JavaScript | MDN

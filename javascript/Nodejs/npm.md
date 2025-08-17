@@ -13,6 +13,14 @@ version: 11.5.2
 [<@scope>/]<pkg>@<version range>
 ```
 
+## コマンドのconfig指定
+- コマンドラインで `--foo bar` とすると、`foo`というconfigを`bar`に設定する。
+- コマンドラインで `--foo` とすると、`foo`という設定を `true` に設定する。
+- `--` で、以降の引数をコマンドに渡す。
+
+## npm exec vs npx
+- npxではオプションを位置引数より前に書く必要があるが、npm execは `--` で区切りを明示できる
+
 
 ## コマンド
 "*"はワークスペースに紐づかないコマンド。
@@ -85,13 +93,6 @@ version: 11.5.2
   - npm token  *
   - npm whoami  *
 
-### コマンドのconfig指定
-- コマンドラインで `--foo bar` とすると、`foo`というconfigを`bar`に設定する。
-- コマンドラインで `--foo` とすると、`foo`という設定を `true` に設定する。
-- `--` で、以降の引数をコマンドに渡す。
-
-### npm exec vs npx
-- npxではオプションを位置引数より前に書く必要があるが、npm execは `--` で区切りを明示できる
 
 
 ### `npm access` *
