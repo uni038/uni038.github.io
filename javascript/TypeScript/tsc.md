@@ -19,9 +19,9 @@ tsc --declaration <value>
 ```
 
 # tsconfig.json
-- `files`: 含めるファイルのリスト。存在しないファイルがあるとエラー。globを使いたい場合は`include`を使う
+- `files`: (array, default: false) コンパイルに含めるファイルのリスト。glob不可。globを使いたい場合は`include`を使う
 - `extends`: 設定を継承する他の設定ファイル
-- `include`: 含めるファイルのパターン(glob)。filesが指定されている場合は`[]`、されていない場合は`**/*`
+- `include`: (array) コンパイルに含めるファイルのパターン(glob)。デフォルトはfilesが指定されている場合は`[]`、されていない場合は`**/*`
 - `exclude`: includeから除外するファイルのパターン
 - `references` プロジェクトを論理的に分割し、参照する
 - `compilerOptions`: 下記
@@ -58,7 +58,27 @@ tsc --declaration <value>
 - baseUrl
 - customConditions
 - module: プログラムのモジュールシステムを指定する (commonjs, es****)
-- moduleResolution: モジュール解決
+- `'CommonJS'`
+- `'UMD'`
+- `'AMD'`
+- `'System'`
+- `'ESNext'`
+- `'ES2015'`/`'ES6'`/`'ES2020'`/`'ES2022'`
+- `'node16'`/`'node18'`/`'node20'`/`'nodenext'`
+- `'preserve'`
+- `'None'`
+  - デフォルト値は、targetがES5のときCommonJS、それ以外はES6/ES2015
+- moduleResolution: モジュール解決。`module`パラメータと関連。デフォルトはmodule=CommonJSのときNode10, module=Node16/Node18/Node20のときNode16, NodeNextのときNodeNext, PreserveのときBundler, それ以外の時Classic。
+  - `'node16'`/`'nodenext'` : 標準。moduleに合わせて選択
+  - `'node10'` : Node.js v10以前のモード。CommonJSのみサポート。不要
+  - `'bundler'` : バンドラ向け
+  - `'classic'` : typescript 1.6以前のモード。不要
+  - デフォルトはmoduleに応じて異なる
+    - Node10 (module=CommonJS)
+    - Node16 (module=Node16, Node18, Node20)
+    - NodeNext (module=NodeNext)
+    - Bundler (module=Preserve)
+    - Classic (それ以外)
 - moduleSuffixes
 - noResolve
 - noUncheckedSideEffectImports: "side effect imports"を禁止する
